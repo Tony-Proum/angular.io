@@ -1,0 +1,139 @@
+{% include "lib/githubLinks.html" -%}
+{% include "lib/paramList.html" -%}
+{% extends 'layout/base.template.html' -%}
+
+{% block body %}
+include {$ relativePath(doc.path, '_util-fns') $}
+
+.div(layout="row" layout-xs="column" class="row-margin")
+  div(flex="20" flex-xs="100")
+    h2 What it does
+  div(flex="80" flex-xs="100")
+    :marked
+    {%- if doc.whatItDoes %}
+{$ doc.whatItDoes | indentForMarkdown(6) $}
+    {% else %}
+      *Not yet documented*
+    {% endif %}
+
+.div(layout="row" layout-xs="column" class="row-margin")
+  div(flex="20" flex-xs="100")
+    h2 How to use
+  div(flex="80" flex-xs="100")
+    :marked
+    {%- if doc.howToUse %}
+{$ doc.howToUse | indentForMarkdown(6) $}
+    {% else %}
+      *Not yet documented*
+    {% endif %}
+
+{% block additional %}
+{% endblock %}
+
+.div(class="row-margin" layout="row" layout-xs="column")
+  div(flex="20" flex-xs="100")
+    h2 Class Description
+  div(class="class-description-content" flex="80" flex-xs="100")
+    :marked
+    {%- if doc.description.length > 2 %}
+{$ doc.description | indentForMarkdown(6) | trimBlankLines $}
+    {% else %}
+      *Not yet documented*
+    {% endif %}
+
+.div(layout="row" layout-xs="column" class="row-margin")
+  div(flex="20" flex-xs="100")
+    h2 Class Export
+  div(flex="80" flex-xs="100")
+    pre.prettyprint.no-bg
+      code.no-pln.
+        export {$ doc.docType $} {$ doc.name $}
+
+{%- if doc.decorators.length %}
+{% block annotations %}
+.div(layout="row" layout-xs="column" class="row-margin")
+  div(flex="20" flex-xs="100")
+    h2 Annotations
+  div(flex="80" flex-xs="100")
+    {%- for decorator in doc.decorators %}
+      pre.prettyprint.no-bg
+        code.
+          @{$ decorator.name $}{$ paramList(decorator.arguments) | indent(10, false) $}
+      :marked
+      {%- if decorator.notYetDocumented %}
+        *Not yet documented*
+      {% else %}
+        {$ decorator.description | indentForMarkdown(8) | trimBlankLines $}
+      {% endif %}
+    {% endfor %}
+{% endblock %}
+{% endif %}
+
+{%- if doc.constructorDoc and not doc.constructorDoc.internal %}
+.div(layout="row" layout-xs="column" class="row-margin")
+  div(flex="20" flex-xs="100")
+    h2 Constructor
+  div(flex="80" flex-xs="100")
+    pre.prettyprint.no-bg
+      code.
+        {$ doc.constructorDoc.name $}{$ paramList(doc.constructorDoc.parameters) | indent(8, false) | trim $}
+    :marked
+      {%- if doc.constructorDoc.notYetDocumented %}
+      *Not yet documented*
+      {% else %}
+{$ doc.constructorDoc.description | indentForMarkdown(6) | replace('### Example', '') | replace('## Example', '') | replace('# Example', '') | trimBlankLines $}
+      {% endif %}
+{% endif %}
+
+{% if doc.statics.length %}
+.div(layout="row" layout-xs="column" class="row-margin")
+  div(flex="20" flex-xs="100")
+    h2 Static Members
+  div(flex="80" flex-xs="100")
+  {% for member in doc.statics %}{% if not member.internal %}
+    pre.prettyprint.no-bg
+      code.
+        {$ member.name $}{$ paramList(member.parameters) | indent(8, false) | trim $}{$ returnType(member.returnType) $}
+    :marked
+      {%- if member.notYetDocumented %}
+      *Not yet documented*
+      {% else %}
+{$ member.description | indentForMarkdown(6) | replace('## Example', '') | replace('# Example', '') | trimBlankLines $}
+      {% endif %}
+
+    {% if not loop.last %}
+    .hr(class="hr-margin")
+    {% endif %}
+
+  {% endif %}{% endfor %}
+{% endif %}
+
+{% if doc.members.length %}
+.div(layout="row" layout-xs="column" class="instance-members" class="row-margin")
+  div(flex="20" flex-xs="100")
+    h2 Instance Members
+  div(flex="80" flex-xs="100")
+    {% for member in doc.members %}{% if not member.internal %}
+    pre.prettyprint.no-bg
+      code.
+        {$ member.name $}{$ paramList(member.parameters) | indent(8, false) | trim $}{$ returnType(member.returnType) $}
+
+    :marked
+      {%- if member.notYetDocumented %}
+      *Not yet documented*
+      {% else %}
+{$ member.description | indentForMarkdown(6) | replace('### Example', '') | replace('## Example', '') | replace('# Example', '') | trimBlankLines $}
+      {% endif -%}
+
+    {% if not loop.last %}
+    .hr(class="hr-margin")
+    {% endif %}
+
+  {% endif %}{% endfor %}
+{% endif %}
+
+.p(class="location-badge")
+  exported from {@link {$ doc.moduleDoc.id $} {$doc.moduleDoc.id $} }
+  defined in {$ githubViewLink(doc) $}
+
+{% endblock %}

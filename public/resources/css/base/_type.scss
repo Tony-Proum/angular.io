@@ -7,7 +7,10 @@
 body {
   font-family: $brand-font;
   font-size: 14px;
-  color: $platinum;
+  color: #1a2326;
+  &.ng-cloak {
+    display: none;
+  }
 }
 
 a {
@@ -15,12 +18,19 @@ a {
 }
 
 code {
-  background: $mist;
+  background: #eef1f2;
   border-radius: 2px;
   font-family: $mono-font;
-  color: $metal;
+  color: $regal;
   padding: 0px 4px;
-  font-size: 90%;
+}
+
+p code {
+  border-bottom: 1px dotted $regal;
+
+  &:hover {
+    border-bottom: 1px solid $regal;
+  }
 }
 
 .location-badge {
@@ -80,7 +90,7 @@ code {
 .docs-content h3 {
   margin: 0px 0px ($unit * 2) 0px;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 450;
   opacity: .87;
   line-height: 32px;
 }
@@ -94,6 +104,29 @@ code {
   line-height: 32px;
 }
 
+.docs-content {
+  h1 {
+    font-size: 24px;
+    opacity: 0.87;
+  }
+  h2 {
+    font-size: 15px;
+    text-transform: uppercase;
+    color: #78909C;
+  }
+  h3 {
+    font-size: 16px;
+  }
+  h4 {
+    font-size: 16px;
+  }
+  p {
+    font-size: 15px;
+    color: #5c7078;
+    line-height: 28pt;
+  }
+}
+
 table th,
 .text-subhead,
 .text-body,
@@ -105,11 +138,17 @@ table th,
   font-weight: 400;
   opacity: .87;
   line-height: 28px;
+  padding: 0;
 
   &.is-plain {
     list-style-type: none;
     padding: 0px;
   }
+}
+
+.docs-content ul,
+.docs-content ol {
+  padding-left: ($unit * 4);
 }
 
 .l-sub-section p,
@@ -160,4 +199,41 @@ table td {
 .l-sub-section .text-aside,
 .docs-content .l-sub-section  aside {
   background: $snow;
+}
+
+.docs-content .l-sub-section {
+  padding: ($unit * 2) ($unit * 3);
+  h3 {
+    line-height: 1em;
+  }
+  pre:last-child {
+    margin-bottom: 0;
+  }
+}
+.docs-content .card-row {
+  max-width: 1000px;
+  > div > .card {
+    margin: $unit ($unit * 3);
+  }
+  > div:first-child > .card {
+    margin-left: 0;
+  }
+  > div:last-child > .card {
+    margin-right: 0;
+  }
+}
+@media handheld and (max-width: 480px), screen and (max-device-width: 480px), screen and (max-width: 600px) {
+  .docs-content .card-row {
+    &[layout="row"] {
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      & > div {
+        & > .card {
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+  }
 }

@@ -51,6 +51,12 @@
 * Page & Element Specific Layouts
 *
 */
+.l-hr {
+  margin: 0 ($unit * 0.5) ($unit * 5);
+  padding: ($unit * 2) 0;
+  border-bottom: 1px solid $fog;
+  color: $heather;
+}
 
 .l-offset-nav {
   padding-top: 56px;
@@ -79,6 +85,8 @@
 
 .l-content {
   padding: ($unit * 8) ($unit * 12);
+  max-width: 1200px;
+  margin: 0 auto;
 
   @media handheld and (max-width: $phone-breakpoint),
   screen and (max-device-width: $phone-breakpoint),
@@ -89,6 +97,8 @@
 
 .l-content-small {
   padding: $unit * 6;
+  max-width: 1100px;
+  margin: 0;
 
   @media handheld and (max-width: $phone-breakpoint),
   screen and (max-device-width: $phone-breakpoint),
@@ -135,7 +145,29 @@
   }
 }
 
+button.verbose {
+  font-size: ($unit * 3);
+  @media handheld and (max-width: $phone-breakpoint),
+  screen and (max-device-width: $phone-breakpoint),
+  screen and (max-width: $tablet-breakpoint) {
+    font-size: ($unit * 2);
+  }  
+}
+button.verbose.on {display: none}
 
+.l-verbose-section {
+  margin: 0px 0px ($unit * 4) 0px;
+  padding-left: ($unit * 2);  
+  //background: lighten($light, 5%);
+  border-left: ($unit / 6) solid $grey;
+  border-radius: ($unit / 6);
+}
+.l-verbose-inherit {
+  margin: 0;
+  padding: 0;
+  border-left: 0;
+  border-radius: 0;
+}
 
 /*
 * Margins & Padding
@@ -220,4 +252,14 @@
 
 .l-layer-10 {
   z-index: $layer-10;
+}
+
+/*
+ * Other
+ */
+.to-top {
+  display: block;
+  font-size: $unit * 2;
+  margin-bottom: $unit;
+  margin-top: $unit * 4; 
 }

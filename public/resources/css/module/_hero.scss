@@ -1,9 +1,9 @@
-$hero-padding: $unit * 2;
+$hero-padding: ($unit * 10) ($unit * 6) ($unit * 5);
 
 .hero {
   position: relative;
   padding: $hero-padding;
-  height: 192px;
+  height: $unit * 8;
 
   @media handheld and (max-width: $phone-breakpoint),
   screen and (max-device-width: $phone-breakpoint),
@@ -14,6 +14,7 @@ $hero-padding: $unit * 2;
 
   &.is-large {
     height: 478px;
+    padding-top: ($unit * 2);
     text-align: center;
 
     @media handheld and (max-width: $phone-breakpoint),
@@ -25,7 +26,7 @@ $hero-padding: $unit * 2;
 
   .hero-title {
     text-transform: uppercase;
-    margin: ($unit * 9) 0px 0px ($unit * 10);
+    margin: 0;
     opacity: .87;
 
     &.is-standard-case {
@@ -40,8 +41,8 @@ $hero-padding: $unit * 2;
   }
 
   .hero-subtitle {
-    margin: 0px 0px 0px ($unit * 10);
-    opacity: .87;
+    margin: 0;
+    opacity: 1;
 
     @media handheld and (max-width: $phone-breakpoint),
     screen and (max-device-width: $phone-breakpoint),
@@ -52,16 +53,22 @@ $hero-padding: $unit * 2;
 
   // LARGE SHEILD LOGO
   .hero-logo {
-    background: url('/resources/images/logos/standard/shield-large.png') top center no-repeat;
+    position: relative;
     padding-top: 224px;
     opacity: 1;
     width: $unit * 70;
     margin: ($unit * 3) auto ($unit * 5) auto;
     font-weight: 400;
 
-    @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-      background: url('/resources/images/logos/standard/shield-large@2x.png') top center no-repeat;
-      background-size: 184px 200px;
+    &:after {
+      content: '';
+      background: url('/resources/images/logos/angular2/shield-with-beta.png') top center no-repeat;
+      background-size: contain;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 224px;
     }
 
     @media handheld and (max-width: $phone-breakpoint),
@@ -84,33 +91,6 @@ $hero-padding: $unit * 2;
     screen and (max-width: $tablet-breakpoint) {
       margin: ($unit * 2) 0px;
       display: block;
-    }
-  }
-
-  // SOCIAL ICONS
-  .social-icons {
-    position: absolute;
-    top: $unit * 3;
-    right: $unit * 3;
-    z-index: $layer-1;
-
-    @media handheld and (max-width: $phone-breakpoint),
-    screen and (max-device-width: $phone-breakpoint),
-    screen and (max-width: $tablet-breakpoint) {
-      right: auto;
-      left: 0;
-    }
-
-    button {
-      color: $snow;
-      opacity: .56;
-      font-size: 18px;
-      text-decoration: none;
-      margin-left: $unit * 2;
-      padding: 0;
-      background: none;
-      border: none;
-      outline: none;
     }
   }
 }

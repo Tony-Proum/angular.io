@@ -1,48 +1,58 @@
 /*
-* Apllication Controller
-*
-*/
+ * Application Controller
+ *
+ */
 
-angularIO.controller('AppCtrl', ['$scope', '$mdDialog', '$timeout', function($scope, $mdDialog, $timeout) {
-  $scope.showDocsNav = false;
-  $scope.showMainNav = false;
-  $scope.showMenu = false;
+angularIO.controller('AppCtrl', ['$mdDialog', '$timeout', '$http', '$sce', function ($mdDialog, $timeout, $http, $sce) {
+  var vm = this;
+
+  vm.showDocsNav = false;
+  vm.showMainNav = false;
+  vm.showMenu    = false;
 
   // TOGGLE MAIN NAV (TOP) ON MOBILE
-  $scope.toggleDocsMenu = function() {
-    $scope.showDocsNav = !$scope.showDocsNav;
+  vm.toggleDocsMenu = function () {
+    vm.showDocsNav = !vm.showDocsNav;
   };
 
   // TOGGLE DOCS NAV
-  $scope.toggleMainMenu = function() {
-    $scope.showMainNav = !$scope.showMainNav;
+  vm.toggleMainMenu = function () {
+    vm.showMainNav = !vm.showMainNav;
   };
 
   // TOGGLE DOCS VERSION & LANGUAGE
-  $scope.toggleVersionMenu = function() {
-    $scope.showMenu = !$scope.showMenu;
+  vm.toggleVersionMenu = function () {
+    vm.showMenu = !vm.showMenu;
   };
 
+  vm.openFeedback = function() {
+    var configuration = {
+      'productId': '410509',
+      'authuser': '1',
+      'bucket': 'angulario'
+    };
+    userfeedback.api.startFeedback(configuration);
+  };
 
   /*
-  * Prettify Code
-  *
-  * Finish Rendereding code directives then prettify code
-  */
+   * Prettify Code
+   *
+   * Finish Rendereding code directives then prettify code
+   */
 
   // GRAB ALL TAGS NOT USING DIRECTIVES
   var preTags = angular.element(document.body).find('pre');
 
   // LOOP THROUGH AND ADD PRETTIFY CLASS
-  _.each(preTags, function(element) {
+  _.each(preTags, function (element) {
     var preTag = angular.element(element);
 
     // IF NOT FORMATTED, ADD PRETTY PRINT
-    if(!preTag.hasClass('prettyprint')) {
+    if (!preTag.hasClass('prettyprint')) {
       preTag.addClass('prettyprint linenums');
     }
   });
 
   // TRIGGER PRETTYPRINT AFTER DIGEST LOOP COMPLETE
   $timeout(prettyPrint, 1);
-}]);
+} ]);
