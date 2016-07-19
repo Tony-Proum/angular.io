@@ -8,16 +8,16 @@ import 'hero.dart';
 import 'hero_detail_component.dart';
 // #docregion hero-service-import
 import 'hero_service.dart';
-
 // #enddocregion hero-service-import
 
 @Component(
     selector: 'my-app',
+    // #docregion template
     template: '''
       <h1>{{title}}</h1>
       <h2>My Heroes</h2>
       <ul class="heroes">
-        <li *ngFor="#hero of heroes"
+        <li *ngFor="let hero of heroes"
           [class.selected]="hero == selectedHero"
           (click)="onSelect(hero)">
           <span class="badge">{{hero.id}}</span> {{hero.name}}
@@ -25,6 +25,7 @@ import 'hero_service.dart';
       </ul>
       <my-hero-detail [hero]="selectedHero"></my-hero-detail>
     ''',
+    // #enddocregion template
     styles: const [
     '''
       .selected {
@@ -90,17 +91,17 @@ class AppComponent implements OnInit {
 
   AppComponent(this._heroService);
 
-// #docregion get-heroes
-  getHeroes() async {
+  // #docregion get-heroes
+  Future<Null> getHeroes() async {
     heroes = await _heroService.getHeroes();
   }
-// #enddocregion get-heroes
+  // #enddocregion get-heroes
 
-  ngOnInit() {
+  void ngOnInit() {
     getHeroes();
   }
 
-  onSelect(Hero hero) {
+  void onSelect(Hero hero) {
     selectedHero = hero;
   }
 }

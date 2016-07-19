@@ -1,14 +1,14 @@
 // #docplaster
-
 // #docregion
-import {Component, OnInit} from 'angular2/core';
-import {Crisis, CrisisService} from './crisis.service';
-import {Router, RouteParams} from 'angular2/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router }       from '@angular/router';
+
+import { Crisis, CrisisService } from './crisis.service';
 
 @Component({
   template: `
     <ul class="items">
-      <li *ngFor="#crisis of crises"
+      <li *ngFor="let crisis of crises"
         [class.selected]="isSelected(crisis)"
         (click)="onSelect(crisis)">
         <span class="badge">{{crisis.id}}</span> {{crisis.name}}
@@ -16,25 +16,36 @@ import {Router, RouteParams} from 'angular2/router';
     </ul>
   `,
 })
-export class CrisisListComponent implements OnInit {
+export class CrisisListComponent implements OnInit, OnDestroy {
   crises: Crisis[];
-
-  private _selectedId: number;
+  private selectedId: number;
+  private sub: any;
 
   constructor(
-    private _service: CrisisService,
-    private _router: Router,
-    routeParams: RouteParams) {
-      this._selectedId = +routeParams.get('id');
-  }
+    private service: CrisisService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
-  isSelected(crisis: Crisis) { return crisis.id === this._selectedId; }
+  isSelected(crisis: Crisis) { return crisis.id === this.selectedId; }
 
   ngOnInit() {
-    this._service.getCrises().then(crises => this.crises = crises);
+    this.sub = this.route
+      .params
+      .subscribe(params => {
+        this.selectedId = +params['id'];
+        this.service.getCrises()
+          .then(crises => this.crises = crises);
+      });
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   onSelect(crisis: Crisis) {
-    this._router.navigate( ['CrisisDetail', { id: crisis.id }]  );
+    // Navigate with Absolute link
+    this.router.navigate(['/crisis-center', crisis.id]);
   }
 }

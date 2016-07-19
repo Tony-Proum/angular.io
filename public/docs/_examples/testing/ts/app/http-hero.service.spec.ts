@@ -1,39 +1,22 @@
 /* tslint:disable:no-unused-variable */
 import {
-  it,
-  iit,
-  xit,
-  describe,
-  ddescribe,
-  xdescribe,
-  expect,
-  fakeAsync,
-  tick,
-  beforeEach,
-  inject,
-  injectAsync,
-  withProviders,
-  beforeEachProviders
-} from 'angular2/testing';
+  addProviders,
+  async, inject, withProviders
+} from '@angular/core/testing';
 
-import { provide } from 'angular2/core';
+import { TestComponentBuilder } from '@angular/core/testing';
 
 import {
   MockBackend,
-  MockConnection } from 'angular2/src/http/backends/mock_backend';
+  MockConnection } from '@angular/http/testing';
 
 import {
-  BaseRequestOptions,
-  ConnectionBackend,
-  Request,
-  RequestMethod,
-  RequestOptions,
-  Response,
-  ResponseOptions,
-  URLSearchParams,
-  HTTP_PROVIDERS,
-  XHRBackend,
-  Http} from 'angular2/http';
+  Http, HTTP_PROVIDERS,
+  ConnectionBackend, XHRBackend,
+  Request, RequestMethod, BaseRequestOptions, RequestOptions,
+  Response, ResponseOptions,
+  URLSearchParams
+} from '@angular/http';
 
 // Add all operators to Observable
 import 'rxjs/Rx';
@@ -45,10 +28,10 @@ import { HeroService } from './http-hero.service';
 type HeroData = {id: string, name: string}
 
 const makeHeroData = () => [
-  { "id": "1", "name": "Windstorm" },
-  { "id": "2", "name": "Bombasto" },
-  { "id": "3", "name": "Magneta" },
-  { "id": "4", "name": "Tornado" }
+  { id: '1', name: 'Windstorm' },
+  { id: '2', name: 'Bombasto' },
+  { id: '3', name: 'Magneta' },
+  { id: '4', name: 'Tornado' }
 ];
 
 // HeroService expects response data like {data: {the-data}}
@@ -57,10 +40,12 @@ const makeResponseData = (data: {}) => {return { data }; };
 ////////  SPECS  /////////////
 describe('Http-HeroService (mockBackend)', () => {
 
-  beforeEachProviders(() => [
-    HTTP_PROVIDERS,
-    provide(XHRBackend, {useClass: MockBackend})
-  ]);
+  beforeEach(() => {
+    addProviders([
+      HTTP_PROVIDERS,
+      { provide: XHRBackend, useClass: MockBackend }
+    ]);
+  });
 
   it('can instantiate service when inject service',
     withProviders(() => [HeroService])
@@ -96,45 +81,45 @@ describe('Http-HeroService (mockBackend)', () => {
         response = new Response(options);
       }));
 
-      it('should have expected fake heroes (then)', injectAsync([], () => {
+      it('should have expected fake heroes (then)', async(inject([], () => {
         backend.connections.subscribe((c: MockConnection) => c.mockRespond(response));
 
-        return service.getHeroes().toPromise()
+        service.getHeroes().toPromise()
         // .then(() => Promise.reject('deliberate'))
           .then(heroes => {
             expect(heroes.length).toEqual(fakeHeroes.length,
               'should have expected no. of heroes');
           });
-      }));
+      })));
 
-      it('should have expected fake heroes (Observable.do)', injectAsync([], () => {
+      it('should have expected fake heroes (Observable.do)', async(inject([], () => {
         backend.connections.subscribe((c: MockConnection) => c.mockRespond(response));
 
-        return service.getHeroes()
+        service.getHeroes()
           .do(heroes => {
             expect(heroes.length).toEqual(fakeHeroes.length,
               'should have expected no. of heroes');
           })
           .toPromise();
-      }));
+      })));
 
 
-      it('should be OK returning no heroes', injectAsync([], () => {
+      it('should be OK returning no heroes', async(inject([], () => {
         let resp = new Response(new ResponseOptions({status: 200, body: {data: []}}));
         backend.connections.subscribe((c: MockConnection) => c.mockRespond(resp));
 
-        return service.getHeroes()
+        service.getHeroes()
           .do(heroes => {
             expect(heroes.length).toEqual(0, 'should have no heroes');
           })
           .toPromise();
-      }));
+      })));
 
-      it('should treat 404 as an Observable error', injectAsync([], () => {
+      it('should treat 404 as an Observable error', async(inject([], () => {
         let resp = new Response(new ResponseOptions({status: 404}));
         backend.connections.subscribe((c: MockConnection) => c.mockRespond(resp));
 
-        return service.getHeroes()
+        service.getHeroes()
           .do(heroes => {
             fail('should not respond with heroes');
           })
@@ -143,6 +128,6 @@ describe('Http-HeroService (mockBackend)', () => {
             return Observable.of(null); // failure is the expected test result
           })
           .toPromise();
-      }));
+      })));
   });
 });

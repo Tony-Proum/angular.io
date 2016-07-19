@@ -1,29 +1,34 @@
+/* tslint:disable:no-unused-variable */
 // #docregion
-import {Directive, ElementRef, Input} from 'angular2/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[myHighlight]',
-  // #docregion host
-  host: {
-    '(mouseenter)': 'onMouseEnter()',
-    '(mouseleave)': 'onMouseLeave()'
-  }
-  // #enddocregion host
+  selector: '[myHighlight]'
 })
 
 export class HighlightDirective {
-  
   // #docregion ctor
-  private _el:HTMLElement;
-  constructor(el: ElementRef) { this._el = el.nativeElement; }
+  private el: HTMLElement;
+
+  constructor(el: ElementRef) { this.el = el.nativeElement; }
   // #enddocregion ctor
 
-  // #docregion mouse-methods
-  onMouseEnter() { this._highlight("yellow"); }
-  onMouseLeave() { this._highlight(null); }
+  // #docregion mouse-methods, host
+  @HostListener('mouseenter') onMouseEnter() {
+    // #enddocregion host
+    this.highlight('yellow');
+    // #docregion host
+  }
 
-  private _highlight(color: string) {
-    this._el.style.backgroundColor = color;
+  @HostListener('mouseleave') onMouseLeave() {
+    // #enddocregion host
+    this.highlight(null);
+    // #docregion host
+  }
+  // #enddocregion host
+
+  private highlight(color: string) {
+    this.el.style.backgroundColor = color;
   }
   // #enddocregion mouse-methods
 

@@ -1,3 +1,4 @@
+var fs = require('fs');
 var path = require('canonical-path');
 var Package = require('dgeni').Package;
 var basePackage = require('../docs-package');
@@ -7,7 +8,7 @@ var cheatsheetPackage = require('../cheatsheet-package');
 var PROJECT_PATH = path.resolve(__dirname, "../../..");
 var PUBLIC_PATH = path.resolve(PROJECT_PATH, 'public');
 var DOCS_PATH = path.resolve(PUBLIC_PATH, 'docs');
-var ANGULAR2_DOCS_PATH = path.resolve(__dirname, '../../../../angular/modules/angular2/docs');
+var ANGULAR2_DOCS_PATH = path.resolve(__dirname, '../../../../angular/modules/@angular/docs');
 
 
 module.exports = new Package('angular.io', [basePackage, targetPackage, cheatsheetPackage])
@@ -40,21 +41,44 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
 
 .config(function(readTypeScriptModules, writeFilesProcessor, readFilesProcessor) {
 
+  var angular_repo_path =  path.resolve(__dirname, '../../../../angular');
+  // confirm that the angular repo is actually there.
+  if (!fs.existsSync(angular_repo_path)) {
+    throw new Error('build-api-docs task requires the angular2 repo to be at ' + angular_repo_path);
+  }
+  readTypeScriptModules.basePath = path.resolve(angular_repo_path, 'modules');
+  readTypeScriptModules.ignoreExportsMatching = [
+    '___esModule',
+    '___core_private_types__',
+    '___platform_browser_private__',
+    '___platform_browser_private_types__',
+    '___platform_browser_dynamic_private__',
+    '___platform_browser_dynamic_private_types__',
+    '___compiler_private__',
+    '__core_private__',
+    '___core_private__'
+  ];
+
   readTypeScriptModules.sourceFiles = [
-    'angular2/animate.ts',
-    'angular2/common.ts',
-    'angular2/compiler.ts',
-    'angular2/core.ts',
-    'angular2/http.ts',
-    'angular2/http/testing.ts',
-    'angular2/instrumentation.ts',
-    'angular2/platform/browser.ts',
-    'angular2/router.ts',
-    'angular2/router/testing.ts',
-    'angular2/upgrade.ts',
-    'angular2/testing.ts'
+    '@angular/common/index.ts',
+    '@angular/common/testing.ts',
+    '@angular/core/index.ts',
+    '@angular/core/testing.ts',
+    '@angular/forms/index.ts',
+    '@angular/http/index.ts',
+    '@angular/http/testing.ts',
+    '@angular/platform-browser/index.ts',
+    '@angular/platform-browser/testing.ts',
+    '@angular/platform-browser-dynamic/index.ts',
+    '@angular/platform-browser-dynamic/testing.ts',
+    '@angular/platform-server/index.ts',
+    '@angular/platform-server/testing.ts',
+    '@angular/router/index.ts',
+    '@angular/router-deprecated/index.ts',
+    '@angular/upgrade/index.ts',
   ];
   readTypeScriptModules.hidePrivateMembers = true;
+
 
   readFilesProcessor.basePath = DOCS_PATH;
   readFilesProcessor.sourceFiles = [{
@@ -79,7 +103,7 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
   computePathsProcessor.pathTemplates.push({
     docTypes: ['module'],
     getPath: function computeModulePath(doc) {
-      doc.moduleFolder = doc.id.replace(/^angular2\//, '');
+      doc.moduleFolder = doc.id.replace(/^@angular\//, '');
       return doc.moduleFolder + '/index.html';
     },
     getOutputPath: function computeModulePath(doc) {
@@ -132,8 +156,7 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
   ]));
 })
 
-.config(function(filterUnwantedDecorators, log) {
-  log.level = 'info';
+.config(function(filterUnwantedDecorators) {
   filterUnwantedDecorators.decoratorsToIgnore = [
     'CONST',
     'IMPLEMENTS',

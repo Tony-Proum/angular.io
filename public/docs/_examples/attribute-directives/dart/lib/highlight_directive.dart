@@ -2,51 +2,44 @@
 // #docregion full
 import 'package:angular2/core.dart';
 
-@Directive(selector: '[my-highlight]', host: const {
-  '(mouseenter)': 'onMouseEnter()',
-  '(mouseleave)': 'onMouseLeave()'
-})
-// #docregion class-1
-class Highlight {
-  // #enddocregion class-1
-// #enddocregion full
-  /*
-// #docregion highlight
-  @Input() myHighlight: string;
-// #enddocregion highlight
-  */
-// #docregion full
-// #docregion class-1
-// #docregion color
-  @Input('my-highlight') String highlightColor;
-// #enddocregion color
-
+@Directive(selector: '[myHighlight]')
+// #docregion class
+class HighlightDirective {
   String _defaultColor = 'red';
-  // #enddocregion class-1
+  final dynamic _el;
+
+  HighlightDirective(ElementRef elRef) : _el = elRef.nativeElement;
+  // #enddocregion class
+
   // #docregion defaultColor
-  @Input() set defaultColor(String colorName) {
+  @Input()
+  set defaultColor(String colorName) {
     _defaultColor = (colorName ?? _defaultColor);
   }
   // #enddocregion defaultColor
-// #docregion class-1
+  // #docregion class
 
-  final ElementRef _element;
+  // #docregion color
+  @Input('myHighlight')
+  String highlightColor;
+  // #enddocregion color
 
-// #docregion mouse-enter
-  onMouseEnter() {
-    _highlight(highlightColor ?? _defaultColor);
+  // #docregion mouse-enter
+  @HostListener('mouseenter')
+  void onMouseEnter() => _highlight(highlightColor ?? _defaultColor);
+
+  // #enddocregion mouse-enter
+  @HostListener('mouseleave')
+  void onMouseLeave() => _highlight();
+
+  void _highlight([String color]) {
+    if (_el != null) _el.style.backgroundColor = color;
   }
-
-// #enddocregion mouse-enter
-  onMouseLeave() {
-    _highlight(null);
-  }
-
-  void _highlight(String color) {
-    _element.nativeElement.style.backgroundColor = color;
-  }
-
-  Highlight(this._element);
 }
-// #enddocregion class-1
+// #enddocregion class
 // #enddocregion full
+/*
+// #docregion highlight
+@Input() String myHighlight;
+// #enddocregion highlight
+*/

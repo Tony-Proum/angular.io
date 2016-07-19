@@ -1,5 +1,11 @@
-import {bootstrap}    from 'angular2/platform/browser';
-import {AppComponent} from './app.component';
+// #docregion
+import { bootstrap }                            from '@angular/platform-browser-dynamic';
+import { disableDeprecatedForms, provideForms } from '@angular/forms';
 
-bootstrap(AppComponent, [])
-  .catch((err:any) => console.error(err));
+import { AppComponent } from './app.component';
+
+bootstrap(AppComponent, [
+  disableDeprecatedForms(),
+  provideForms()
+])
+.catch((err: any) => console.error(err));

@@ -75,6 +75,7 @@
         "name": "Victor Savkin",
         "picture": "/resources/images/bios/victor.jpg",
         "twitter": "victorsavkin",
+        "website": "http://victorsavkin.com/",
         "bio": "Victor works on Angular at Google. He is interested in functional programming and client-side applications. Being a language nerd he spends a lot of his time playing with TypeScript, Dart, Elm, Haskell, and Clojure.",
         "type": "Google"
       },
@@ -85,14 +86,6 @@
         "twitter": "tbosch1009",
         "website": "https://plus.google.com/+TobiasBosch",
         "bio": "Tobias Bosch is a software engineer at Google. He is part of the Angular core team and works on Angular 2.",
-        "type": "Google"
-      },
-
-      "brianford": {
-        "name": "Brian Ford",
-        "picture": "/resources/images/bios/brian-ford.jpg",
-        "twitter": "briantford",
-        "bio": "Brian works on the AngularJS core team at Google where he tries his very best to make computers do the right thing.",
         "type": "Google"
       },
 
@@ -109,6 +102,7 @@
         "name": "David East",
         "picture": "/resources/images/bios/david-east.jpg",
         "twitter": "_davideast",
+        "website":"https://github.com/davideast",
         "bio": "David East is a Developer Programs Engineer at Google. He works full-time on the Firebase team and part-time on the Angular core team.",
         "type": "Google"
       },
@@ -188,7 +182,7 @@
       "hansl": {
         "name": "Hans Larsen",
         "picture": "/resources/images/bios/hansl.jpg",
-        "twitter": "hanselatwork",
+        "twitter": "hanslatwork",
         "website": "http://www.codingatwork.com/",
         "bio": "Hans is a software engineer at Google on the Angular team and was previously at Slack. He works everyday to help make it easier for everyone to create beautiful, consistent web applications using Angular2, using Material Design components and the CLI tool.",
         "type": "Google"
@@ -225,6 +219,7 @@
         "name": "Lucas Mirelmann",
         "picture": "/resources/images/bios/lucas.jpg",
         "twitter": "lgalfaso",
+        "website": "https://github.com/lgalfaso",
         "bio": "Lucas works as a Software Engineer at Google and is a core Angular contributor.",
         "type": "Google"
       },
@@ -251,6 +246,7 @@
         "name": "Robert Messerle",
         "picture": "/resources/images/bios/rmesserle.jpg",
         "twitter": "Bobbo_O",
+        "website": "https://github.com/robertmesserle",
         "bio": "Robert is a software engineer on the Angular team at Google, working primarily on the Angular Material project.",
         "type": "Google"
       },
@@ -266,6 +262,8 @@
       "scott": {
         "name": "Scott Hyndman",
         "picture": "/resources/images/bios/scott.jpg",
+        "twitter": "scotthyndman",
+        "website": "https://github.com/shyndman",
         "bio": "Scott works for Google on the Material Design team, where he brings designers' dreams to life on the web.",
         "type": "Google"
       },
@@ -274,6 +272,7 @@
         "name": "Kara Erickson",
         "picture": "/resources/images/bios/kara-erickson.jpg",
         "twitter": "karaforthewin",
+        "website": "https://github.com/kara",
         "bio": "Kara is a software engineer on the Angular team at Google and a co-organizer of the Angular-SF Meetup. Prior to Google, she helped build UI components in Angular for guest management systems at OpenTable.  She enjoys snacking indiscriminately and probably other things too.",
         "type": "Google"
       },
@@ -284,6 +283,37 @@
         "twitter": "chuckjaz",
         "website": "http://removingalldoubt.com",
         "bio": "Chuck is a Software Engineer on the Angular team at Google. He is a programming language geek, UI framework and component library veteran, and has a passion for simplifying the task of programming. Before Google, he worked at Microsoft and Borland.",
+        "type": "Google"
+      },
+      "stephenfluin": {
+        "name": "Stephen Fluin",
+        "picture": "/resources/images/bios/stephenfluin.jpg",
+        "twitter": "stephenfluin",
+        "website": "https://plus.google.com/+stephenfluin",
+        "bio": "Stephen is a Developer Advocate working on the Angular team. Before joining Google, he was a Google Expert. Stephen loves to help enterprises use technology more effectively.",
+        "type": "Google"
+      },
+      "robwormald": {
+        "name": "Rob Wormald",
+        "picture": "/resources/images/bios/rob-wormald.jpg",
+        "twitter": "robwormald",
+        "website": "http://github.com/robwormald",
+        "bio": "Rob is a Developer Advocate on the Angular team at Google. He's the Angular team's resident reactive programming geek and founded the Reactive Extensions for Angular project, ngrx.",
+        "type": "Google"
+      },
+      "vikram": {
+        "name": "Vikram Subramanian",
+        "picture": "/resources/images/bios/vikram.jpg",
+        "twitter": "vikerman",
+        "bio": "Vikram is a Software Engineer on the Angular team focused on Engineering Productivity. That means he makes sure people on the team can move fast and not break things. Vikram enjoys doing Yoga and going on walks with his daughter.",
+        "type": "Google"
+      },
+      "maxsills": {
+        "name": "Max Sills",
+        "picture": "/resources/images/bios/max-sills.jpg",
+        "twitter": "angularjs",
+        "website": "http://google-opensource.blogspot.com/",
+        "bio": "Max Sills is Angular's Open Source lawyer.",
         "type": "Google"
       },
 
@@ -314,8 +344,8 @@
 	    "elad": {
         "name": "Elad Bezalel",
         "picture": "/resources/images/bios/eladbezalel.jpg",
-		    "website": "https://github.com/EladBezalel",
-        "bio": "Elad is a fullstack developer with a very storng love for design. Since 8 years old, he's been designing in Photoshop and later on fell in love with programing. This strong bond between design and computer programming gave birth to a new kind of love. And he is currently doing the combination of both, as a core member of the ngMaterial project.",
+        "website": "https://github.com/EladBezalel",
+        "bio": "Elad is a fullstack developer with a very strong love for design. Since 8 years old, he's been designing in Photoshop and later on fell in love with programing. This strong bond between design and computer programming gave birth to a new kind of love. And he is currently doing the combination of both, as a core member of the ngMaterial project.",
         "type": "Community"
       },
 
@@ -414,6 +444,60 @@
         "twitter": "foxandxss",
         "website": "http://angular-tips.com",
         "bio": "Jesus is an open source lover, a book author and editor, and AngularUI lead developer. He is currently a core contributor to the UI Bootstrap project.",
+        "type": "Community"
+      },
+      "torgeirhelgevold": {
+        "name": "Torgeir Helgevold",
+        "picture": "/resources/images/bios/torgeirhelgevold.jpg",
+        "twitter": "helgevold",
+        "website": "http://www.syntaxsuccess.com",
+        "bio": "Torgeir (Tor) is a front-end architect with a passion for JavaScript development. He is also an author for angular.io and an active tech blogger.",
+        "type": "Community"
+      },
+      "fatimaremtullah": {
+        "name": "Fatima Remtullah",
+        "picture": "/resources/images/bios/fatima.jpg",
+        "twitter": "amitafr",
+        "website": "http://www.amitafremtullah.com",
+        "bio": "Fatima is a Product Designer and Front-End Developer. When she is not nerding out she is probably eating an abundance of cookies.",
+        "type": "Community"
+      },
+      "eric": {
+        "name": "Eric Jimenez",
+        "picture": "/resources/images/bios/eric.jpg",
+        "twitter": "_ericjim",
+        "website": "http://eric.to/",
+        "bio": "Eric is a gamer, writer, and programmer.",
+        "type": "Community"
+      },
+      "mikeryan": {
+        "name": "Mike Ryan",
+        "picture": "/resources/images/bios/mikeryan.jpg",
+        "twitter": "mikeryan52",
+        "website": "https://medium.com/@MikeRyan52",
+        "bio": "Mike Ryan is a Software Engineer at Synapse Wireless, working on solving challenging problems in the internet-of-things space. He is an advocate of reactive programming and a core contributor to the ngrx project.",
+        "type": "Community"
+        },
+      "rex": {
+        "name": "Rex Ye",
+        "picture": "/resources/images/bios/rex.jpg",
+        "twitter": "rexebin",
+        "bio": "Rex is a full-stack developer. He maintains the Angular.cn website with his old pal Ralph Wang and he plays a key role in bridging between the Chinese Angular community and the world-wide community. He loves playing with flashy new technologies and enjoys the challenge of mastering new skills. His biggest challenge to date is figuring out how to sooth a crying 4-month-old baby.",
+        "type": "Community"
+      },
+      "ralph": {
+        "name": "Ralph Wang",
+        "picture": "/resources/images/bios/ralph.jpg",
+        "twitter": "ralph_wang_gde",
+        "bio": "Ralph(Zhicheng Wang) is a senior consultant at ThoughWorks and also a GDE. He is a technology enthusiast and he is a passionate advocate of “Simplicity, Professionalism and Sharing”. In his eighteen years of R&D career, he worked as tester, R&D engineer, project manager, product manager and CTO. He is looking forward to the birth of his baby.",
+        "type": "Community"
+      },
+      "brandonroberts": {
+        "name": "Brandon Roberts",
+        "picture": "/resources/images/bios/brandonroberts.jpg",
+        "twitter": "brandontroberts",
+        "website": "https://github.com/brandonroberts",
+        "bio": "Brandon is a front-end developer for a game studio developing web applications for STEM-based learning games. He is also a natural born troubleshooter who helps solve Angular issues on Github and Gitter support channels, particularly dealing with routing. He is also a member of the Angular docs team.",
         "type": "Community"
       }
     }

@@ -1,25 +1,22 @@
 // #docregion
-import { bootstrap }        from 'angular2/platform/browser';
-import { provide }          from 'angular2/core';
-import { XHRBackend }       from 'angular2/http';
-
+import { bootstrap }            from '@angular/platform-browser-dynamic';
+import { XHRBackend }           from '@angular/http';
+import { appRouterProviders }   from './app.routes';
 import { LocationStrategy,
-         HashLocationStrategy,
-         ROUTER_PROVIDERS } from 'angular2/router';
+         HashLocationStrategy } from '@angular/common';
 
 import { HeroData }         from './hero-data';
 import { InMemoryBackendService,
-         SEED_DATA }        from 'a2-in-memory-web-api/core';
+         SEED_DATA }        from 'angular2-in-memory-web-api';
 
 import { AppComponent }     from './app.component';
 
 // #docregion bootstrap
 bootstrap(AppComponent, [
-  ROUTER_PROVIDERS,
-  provide(LocationStrategy,
-         {useClass: HashLocationStrategy}),
+  appRouterProviders,
+  { provide: LocationStrategy, useClass: HashLocationStrategy },
 
-  provide(XHRBackend, { useClass: InMemoryBackendService }), // in-mem server
-  provide(SEED_DATA,  { useClass: HeroData }) // in-mem server data
+  { provide: XHRBackend, useClass: InMemoryBackendService }, // in-mem server
+  { provide: SEED_DATA,  useClass: HeroData } // in-mem server data
 ]).catch((err: any) => console.error(err));
 // #enddocregion bootstrap

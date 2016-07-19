@@ -1,7 +1,11 @@
+/* third version */
 // #docregion
-import {bootstrap}        from 'angular2/platform/browser';
-import {ROUTER_PROVIDERS} from 'angular2/router';
+// main entry point
+import { bootstrap }          from '@angular/platform-browser-dynamic';
+import { AppComponent }       from './app.component.3';
+import { appRouterProviders } from './app.routes';
 
-import {AppComponent}     from './app.component.3';
-
-bootstrap(AppComponent, [ROUTER_PROVIDERS]);
+bootstrap(AppComponent, [
+  appRouterProviders
+])
+.catch(err => console.error(err));

@@ -1,5 +1,11 @@
 include ../_util-fns
 
+.alert.is-important
+  :marked
+    This cookbook uses the new forms API. 
+    
+    The old forms API is deprecated, but we still maintain a separate version of the cookbook using the deprecated forms API <a href='/docs/ts/latest/cookbook/dynamic-form-deprecated.html'>here</a>.
+
 :marked
    We can't always justify the cost and time to build handcrafted forms, 
    especially if we'll need a great number of them, they're similar to each other, and they change frequently 
@@ -7,7 +13,7 @@ include ../_util-fns
    
    It may be more economical to create the forms dynamically, based on metadata that describe the business object model.
    
-   In this cookbook we show how to use `ngFormModel` to dynamically render a simple form with different control types and validation.
+   In this cookbook we show how to use `formGroup` to dynamically render a simple form with different control types and validation.
    It's a primitive start. 
    It might evolve to support a much richer variety of questions, more graceful rendering, and superior user experience.
    All such greatness has humble beginnings.
@@ -19,6 +25,8 @@ include ../_util-fns
 <a id="toc"></a>
 :marked
    ## Table of contents
+
+      [Bootstrap](#bootstrap)
 
       [Question Model](#object-model)
 
@@ -32,11 +40,27 @@ include ../_util-fns
    **See the [live example](/resources/live-examples/cb-dynamic-form/ts/plnkr.html)**.
 
 .l-main-section
+<a id="bootstrap"></a>
+:marked
+   ## Bootstrap
+
+   During bootstrap we have to register the new forms module by calling `provideForms()` and pass the result to the provider array. 
+
++makeExample('cb-dynamic-form/ts/app/main.ts','','app/main.ts')   
+
+:marked
+   The old forms API is going through a deprecation phase. During this transition Angular is supporting both form modules. 
+
+   To remind us that the old API is deprecated, Angular will print a warning message to the console. 
+   
+   Since we are converting to the new API, and no longer need the old API, we call `disableDeprecatedForms()` to disable the old form functionality and the warning message. 
+
+.l-main-section
 <a id="object-model"></a>
 :marked
    ## Question Model
 
-   The first step is to define an object model that can describe all scenarios needed by the form functionality.
+   The next step is to define an object model that can describe all scenarios needed by the form functionality.
    The hero application process involves a form with a lot of questions. 
    The "question" is the most fundamental object in the model.
 
@@ -58,8 +82,8 @@ include ../_util-fns
 +makeExample('cb-dynamic-form/ts/app/question-dropdown.ts',null,'app/question-dropdown.ts')(format='.')
 
 :marked
-   Next we have defined `QuestionControlService`, a simple service for transforming our questions to an ngForm control group. 
-   In a nutshell, the control group consumes the metadata from the question model and allows us to specify default values and validation rules.
+   Next we have defined `QuestionControlService`, a simple service for transforming our questions to a `FormGroup`. 
+   In a nutshell, the form group consumes the metadata from the question model and allows us to specify default values and validation rules.
 
 +makeExample('cb-dynamic-form/ts/app/question-control.service.ts',null,'app/question-control.service.ts')(format='.')
 
@@ -69,7 +93,7 @@ include ../_util-fns
    Now that we have defined the complete model we are ready to create components to represent the dynamic form.
 
 :marked
-  `DynamicForm` is the entry point and the main container for the form. 
+  `DynamicFormComponent` is the entry point and the main container for the form. 
 +makeTabs(
   `cb-dynamic-form/ts/app/dynamic-form.component.html,
    cb-dynamic-form/ts/app/dynamic-form.component.ts`,
@@ -94,14 +118,18 @@ include ../_util-fns
   We only have two types of questions at this point but we can imagine many more.
   The `ngSwitch` determines which type of question to display.
   
-  In both components  we're relying on Angular's **ngFormModel** to connect the template HTML to the
+  In both components  we're relying on Angular's **formGroup** to connect the template HTML to the
   underlying control objects, populated from the question model with display and validation rules.
+
+  `formControlName` and `formGroup` have to be registered as directives before we can use them in our templates.
+
+  It turns out we get access to all form directives by importing and registering `REACTIVE_FORM_DIRECTIVES`. 
 
 <a id="questionnaire-metadata"></a>
 :marked
    ## Questionnaire data
 :marked
-  `DynamicForm` expects the list of questions in the form of an array bound to  `@Input() questions`.
+  `DynamicFormComponent` expects the list of questions in the form of an array bound to  `@Input() questions`.
 
    The set of questions we have defined for the job application is returned from the `QuestionService`. 
    In a real app we'd retrieve these questions from storage.

@@ -1,5 +1,4 @@
-// #docregion
-import {Injectable} from 'angular2/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 // #docregion class
@@ -8,4 +7,3 @@ export class Logger {
   error(msg: any) { console.error(msg); }
   warn(msg: any)  { console.warn(msg); }
 }
-// #enddocregion class

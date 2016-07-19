@@ -1,32 +1,33 @@
 // #docregion
 import 'package:angular2/core.dart';
 
-@Directive(selector: '[my-highlight]',
-// #docregion host
-    host: const {
-      '(mouseenter)': 'onMouseEnter()',
-      '(mouseleave)': 'onMouseLeave()'
-    }
-// #enddocregion host
-    )
-class Highlight {
-  final ElementRef _element;
-// #docregion mouse-methods
-  onMouseEnter() {
-    _highlight("yellow");
+@Directive(selector: '[myHighlight]')
+class HighlightDirective {
+  // #docregion ctor
+  final dynamic _el;
+
+  HighlightDirective(ElementRef elRef) : _el = elRef.nativeElement;
+  // #enddocregion ctor
+
+  // #docregion mouse-methods, host
+  @HostListener('mouseenter')
+  void onMouseEnter() {
+    // #enddocregion host
+    _highlight('yellow');
+    // #docregion host
   }
 
-  onMouseLeave() {
-    _highlight(null);
+  @HostListener('mouseleave')
+  void onMouseLeave() {
+    // #enddocregion host
+    _highlight();
+    // #docregion host
+  }
+  // #enddocregion host
+
+  void _highlight([String color]) {
+    if (_el != null) _el.style.backgroundColor = color;
   }
   // #enddocregion mouse-methods
-
-  void _highlight(String color) {
-    _element.nativeElement.style.backgroundColor = color;
-  }
-
-// #docregion ctor
-  Highlight(this._element);
-// #enddocregion ctor
 }
 // #enddocregion

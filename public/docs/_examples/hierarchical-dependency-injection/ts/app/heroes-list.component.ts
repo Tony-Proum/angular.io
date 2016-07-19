@@ -1,17 +1,18 @@
 // #docregion
-import {Component} from 'angular2/core';
-import {EditItem} from './edit-item';
-import {HeroesService} from './heroes.service';
-import {HeroCardComponent} from './hero-card.component';
-import {HeroEditorComponent} from './hero-editor.component';
-import {Hero} from './hero';
+import { Component } from '@angular/core';
+
+import { EditItem } from './edit-item';
+import { HeroesService } from './heroes.service';
+import { HeroCardComponent } from './hero-card.component';
+import { HeroEditorComponent } from './hero-editor.component';
+import { Hero } from './hero';
 
 @Component({
   selector: 'heroes-list',
   template: `
     <div>
       <ul>
-        <li *ngFor="#editItem of heroes">
+        <li *ngFor="let editItem of heroes">
           <hero-card
             [hidden]="editItem.editing"
             [hero]="editItem.item">

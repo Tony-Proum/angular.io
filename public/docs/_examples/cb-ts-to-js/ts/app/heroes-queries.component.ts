@@ -4,7 +4,7 @@ import {
   ContentChild,
   QueryList,
   Input
-} from 'angular2/core';
+} from '@angular/core';
 
 @Component({
   selector: 'active-label',
@@ -14,7 +14,7 @@ import {
   </span>`
 })
 class ActiveLabelComponent {
-  active:boolean;
+  active: boolean;
 
   activate() {
     this.active = true;
@@ -23,18 +23,18 @@ class ActiveLabelComponent {
 
 // #docregion content
 @Component({
-  selector: 'hero',
+  selector: 'a-hero',
   template: `<h2 [class.active]=active>
     {{hero.name}}
     <ng-content></ng-content>
   </h2>`
 })
 class HeroComponent {
-  @Input() hero:any;
-  active:boolean;
+  @Input() hero: any;
+  active: boolean;
 
   @ContentChild(ActiveLabelComponent)
-  label:ActiveLabelComponent
+  label: ActiveLabelComponent;
 
   activate() {
     this.active = true;
@@ -48,10 +48,10 @@ class HeroComponent {
 @Component({
   selector: 'heroes-queries',
   template: `
-    <hero *ngFor="#hero of heroData"
+    <a-hero *ngFor="let hero of heroData"
           [hero]="hero">
       <active-label></active-label>
-    </hero>
+    </a-hero>
     <button (click)="activate()">
       Activate
     </button>
@@ -68,7 +68,7 @@ export class HeroesQueriesComponent {
   ];
 
   @ViewChildren(HeroComponent)
-  heroCmps:QueryList<HeroComponent>;
+  heroCmps: QueryList<HeroComponent>;
 
   activate() {
     this.heroCmps.forEach(

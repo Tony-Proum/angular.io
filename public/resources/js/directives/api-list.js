@@ -26,15 +26,21 @@ angularIO.directive('apiList', function () {
     controller: function($scope, $attrs, $http, $location) {
       var $ctrl = this;
 
+      var isForDart = $attrs.lang === 'dart';
+
       $ctrl.apiTypes = [
+        { cssClass: 'stable', title: 'Stable', matches: ['stable']},
         { cssClass: 'directive', title: 'Directive', matches: ['directive'] },
         { cssClass: 'decorator', title: 'Decorator', matches: ['decorator'] },
         { cssClass: 'class', title: 'Class', matches: ['class'] },
         { cssClass: 'interface', title: 'Interface', matches: ['interface'] },
         { cssClass: 'function', title: 'Function', matches: ['function'] },
-        { cssClass: 'const', title: 'Const or Enum', matches: ['const', 'enum'] },
-        { cssClass: 'var', title: 'Variable', matches: ['var', 'let'] }
+        { cssClass: 'enum', title: 'Enum', matches: ['enum'] },
+        { cssClass: 'const', title: 'Const', matches: ['var', 'let', 'const'] }
       ];
+
+      if (isForDart) $ctrl.apiTypes = $ctrl.apiTypes.filter((t) => 
+        !t.cssClass.match(/^(stable|directive|decorator|interface|enum)$/));
 
       $ctrl.apiFilter = getApiFilterFromLocation();
       $ctrl.apiType = getApiTypeFromLocation();
@@ -51,6 +57,16 @@ angularIO.directive('apiList', function () {
         var isVisible = false;
 
         section.items.forEach(function(item) {
+
+          // Filter by stability (ericjim: only 'stable' for now)
+          if ($ctrl.apiType && $ctrl.apiType.matches.length === 1 &&
+              $ctrl.apiType.matches[0] === 'stable' && item.stability === 'stable') {
+            item.show = true;
+            isVisible = true;
+            return isVisible;
+          }  // NOTE: other checks can be performed for stability (experimental, deprecated, etc)
+
+          // Filter by docType
           var matchesDocType = !$ctrl.apiType || $ctrl.apiType.matches.indexOf(item.docType) !== -1;
           var matchesTitle = !apiFilter || item.title.toLowerCase().indexOf(apiFilter) !== -1;
           item.show = matchesDocType && (matchesTitle || matchesModule);

@@ -1,8 +1,9 @@
 // #docregion
-import { Component, Injector} from 'angular2/core';
-import { Car, Engine, Tires } from './car';
-import { Car as CarNoDi }     from './car-no-di';
-import { CarFactory}          from './car-factory';
+import { Component } from '@angular/core';
+
+import { Car, Engine, Tires }  from './car';
+import { Car as CarNoDi }      from './car-no-di';
+import { CarFactory }          from './car-factory';
 
 import { testCar,
          simpleCar,
@@ -26,12 +27,12 @@ import { useInjector }        from './car-injector';
   providers: [Car, Engine, Tires]
 })
 export class CarComponent {
-  constructor(public car: Car) {}
-
   factoryCar  = (new CarFactory).createCar();
   injectorCar = useInjector();
   noDiCar     = new CarNoDi;
   simpleCar   = simpleCar();
   superCar    = superCar();
   testCar     = testCar();
+
+  constructor(public car: Car) {}
 }

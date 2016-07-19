@@ -2,25 +2,22 @@
 // #docplaster
 
 // #docregion
-import {Component}   from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import { Component }                 from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 
-import {CrisisListComponent}   from './crisis-list.component';
 // #enddocregion
 /*
-// Apparent Milestone 2 imports
-// #docregion
-// #docregion hero-import
-import {HeroListComponent}     from './heroes/hero-list.component';
-import {HeroDetailComponent}   from './heroes/hero-detail.component';
-import {HeroService}           from './heroes/hero.service';
-// #enddocregion hero-import
-// #enddocregion
-*/
+ // Apparent Milestone 2 imports
+ // #docregion
+ // #docregion hero-import
+ import { HeroDetailComponent }   from './heroes/hero-detail.component';
+ import { HeroListComponent }     from './heroes/hero-list.component';
+ import { HeroService }           from './heroes/hero.service';
+ // #enddocregion hero-import
+ // #enddocregion
+ */
 // Actual Milestone 2 imports
-import {HeroListComponent}     from './heroes/hero-list.component.1';
-import {HeroDetailComponent}   from './heroes/hero-detail.component.1';
-import {HeroService}           from './heroes/hero.service';
+import { HeroService }           from './heroes/hero.service';
 // #docregion
 
 @Component({
@@ -28,8 +25,8 @@ import {HeroService}           from './heroes/hero.service';
   template: `
     <h1>Component Router</h1>
     <nav>
-      <a [routerLink]="['CrisisCenter']">Crisis Center</a>
-      <a [routerLink]="['Heroes']">Heroes</a>
+      <a routerLink="/crisis-center" routerLinkActive="active">Crisis Center</a>
+      <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
     </nav>
     <router-outlet></router-outlet>
   `,
@@ -37,22 +34,7 @@ import {HeroService}           from './heroes/hero.service';
   directives: [ROUTER_DIRECTIVES]
 })
 // #enddocregion
-/*
-// #docregion route-config
-@Component({ ... })
-// #enddocregion route-config
-*/
-// #docregion
-// #docregion route-config
-@RouteConfig([
-// #docregion route-defs
-  {path:'/crisis-center', name: 'CrisisCenter', component: CrisisListComponent},
-  {path:'/heroes',        name: 'Heroes',       component: HeroListComponent},
-  // #docregion hero-detail-route
-  {path:'/hero/:id',      name: 'HeroDetail',   component: HeroDetailComponent}
-  // #enddocregion hero-detail-route
-// #enddocregion route-defs
-])
-export class AppComponent { }
+export class AppComponent {
+}
 // #enddocregion route-config
 // #enddocregion

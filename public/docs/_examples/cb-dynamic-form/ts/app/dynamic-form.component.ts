@@ -1,27 +1,27 @@
 // #docregion
-import {Component, Input, OnInit}  from 'angular2/core';
-import {ControlGroup}              from 'angular2/common';
+import { Component, Input, OnInit }  from '@angular/core';
+import { FormGroup, REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 
-import {QuestionBase}                 from './question-base';
-import {QuestionControlService}       from './question-control.service';
-import {DynamicFormQuestionComponent} from './dynamic-form-question.component';
+import { DynamicFormQuestionComponent } from './dynamic-form-question.component';
+import { QuestionBase }                 from './question-base';
+import { QuestionControlService }       from './question-control.service';
 
 @Component({
-  selector:'dynamic-form',
-  templateUrl:'app/dynamic-form.component.html',
-  directives: [DynamicFormQuestionComponent],
+  selector: 'dynamic-form',
+  templateUrl: 'app/dynamic-form.component.html',
+  directives: [DynamicFormQuestionComponent, REACTIVE_FORM_DIRECTIVES],
   providers:  [QuestionControlService]
 })
-export class DynamicForm {
+export class DynamicFormComponent implements OnInit {
 
   @Input() questions: QuestionBase<any>[] = [];
-  form: ControlGroup;
+  form: FormGroup;
   payLoad = '';
 
-  constructor(private _qcs: QuestionControlService) {  }
+  constructor(private qcs: QuestionControlService) {  }
 
-  ngOnInit(){
-    this.form = this._qcs.toControlGroup(this.questions);
+  ngOnInit() {
+    this.form = this.qcs.toFormGroup(this.questions);
   }
 
   onSubmit() {

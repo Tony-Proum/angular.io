@@ -1,12 +1,11 @@
 // #docplaster
 // #docregion
-// #docregion v2
-// #docregion import-oninit
-import { Component, Input, OnInit } from 'angular2/core';
+// #docregion import-oninit, v2
+import { Component, OnInit, OnDestroy } from '@angular/core';
 // #enddocregion import-oninit
-// #docregion import-route-params
-import { RouteParams } from 'angular2/router';
-// #enddocregion import-route-params
+// #docregion import-activated-route
+import { ActivatedRoute } from '@angular/router';
+// #enddocregion import-activated-route
 
 import { Hero } from './hero';
 // #docregion import-hero-service
@@ -18,39 +17,45 @@ import { HeroService } from './hero.service';
   selector: 'my-hero-detail',
   // #docregion template-url
   templateUrl: 'app/hero-detail.component.html',
-  // #enddocregion template-url
-// #enddocregion v2
+  // #enddocregion template-url, v2
   styleUrls: ['app/hero-detail.component.css']
-// #docregion v2
+  // #docregion v2
 })
 // #enddocregion extract-template
 // #docregion implement
-export class HeroDetailComponent implements OnInit {
-// #enddocregion implement
-  @Input() hero: Hero;
+export class HeroDetailComponent implements OnInit, OnDestroy {
+  // #enddocregion implement
+  hero: Hero;
+  sub: any;
 
-// #docregion ctor
+  // #docregion ctor
   constructor(
-    private _heroService: HeroService,
-    private _routeParams: RouteParams) {
+    private heroService: HeroService,
+    private route: ActivatedRoute) {
   }
-// #enddocregion ctor
+  // #enddocregion ctor
 
-// #docregion ng-oninit
+  // #docregion ng-oninit
   ngOnInit() {
     // #docregion get-id
-    let id = +this._routeParams.get('id');
+    this.sub = this.route.params.subscribe(params => {
+      let id = +params['id'];
+      this.heroService.getHero(id)
+        .then(hero => this.hero = hero);
+    });
     // #enddocregion get-id
-    this._heroService.getHero(id)
-      .then(hero => this.hero = hero);
   }
-// #enddocregion ng-oninit
+  // #enddocregion ng-oninit
 
-// #docregion go-back
+  // #docregion ng-ondestroy
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+  // #enddocregion ng-ondestroy
+
+  // #docregion go-back
   goBack() {
     window.history.back();
   }
 // #enddocregion go-back
 }
-// #enddocregion v2
-// #enddocregion

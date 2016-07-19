@@ -1,15 +1,16 @@
+/* tslint:disable no-unused-variables */
 // #docplaster
 // #docregion
-import { Component }       from 'angular2/core';
+import { Component }       from '@angular/core';
+
 import { HeroService }     from './hero.service';
 import { HeroesComponent } from './heroes.component';
 // #enddocregion
 
 // For testing only
-import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 
 // #docregion
-
 @Component({
   selector: 'my-app',
   template: `
@@ -18,13 +19,11 @@ import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/route
   `,
   directives: [HeroesComponent],
   providers: [
-// #enddocregion
-   ROUTER_PROVIDERS,
-// #docregion
+    // #enddocregion
+    // #docregion
     HeroService
   ]
 })
 export class AppComponent {
   title = 'Tour of Heroes';
 }
-// #enddocregion

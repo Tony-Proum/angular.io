@@ -1,18 +1,20 @@
 // #docregion
-import {Injectable}   from 'angular2/core';
-import {ControlGroup, FormBuilder, Validators} from 'angular2/common';
-import {QuestionBase} from './question-base';
+import { Injectable }   from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { QuestionBase } from './question-base';
 
 @Injectable()
 export class QuestionControlService {
-  constructor(private _fb:FormBuilder){ }
+  constructor() { }
 
-  toControlGroup(questions:QuestionBase<any>[] ) {
-    let group = {};
+  toFormGroup(questions: QuestionBase<any>[] ) {
+    let group: any = {};
 
     questions.forEach(question => {
-      group[question.key] = question.required ? [question.value || '', Validators.required] : [];
+      group[question.key] = question.required ? new FormControl(question.value || '', Validators.required)
+                                              : new FormControl(question.value || '');
     });
-    return this._fb.group(group);
+    return new FormGroup(group);
   }
 }

@@ -5,64 +5,81 @@
 {% block body %}
 include {$ relativePath(doc.path, '_util-fns') $}
 
-.div(layout="row" layout-xs="column" class="row-margin")
-  div(flex="20" flex-xs="100")
-    h2 What it does
-  div(flex="80" flex-xs="100")
-    :marked
-    {%- if doc.whatItDoes %}
-{$ doc.whatItDoes | indentForMarkdown(6) $}
-    {% else %}
-      *Not yet documented*
-    {% endif %}
+{% include "layout/_what-it-does.html" %}
 
-.div(layout="row" layout-xs="column" class="row-margin")
+{% include "layout/_security-notes.html" %}
+
+{% include "layout/_deprecated-notes.html" %}
+
+{% include "layout/_how-to-use.html" %}
+
+div(layout="row" layout-xs="column" class="ng-cloak")
   div(flex="20" flex-xs="100")
-    h2 How to use
+    h2(class="h2-api-docs") Class Overview
   div(flex="80" flex-xs="100")
-    :marked
-    {%- if doc.howToUse %}
-{$ doc.howToUse | indentForMarkdown(6) $}
-    {% else %}
-      *Not yet documented*
+    code(class="no-bg api-doc-code openParens") class {$ doc.name $} {
+
+    {% if doc.statics.length %}
+    div(layout="column")
+      {% for member in doc.statics %}{% if not member.internal %}
+        pre(class="prettyprint no-bg-with-indent")
+          a(class="code-anchor" href="#{$ member.name $}-anchor")
+            code(class="code-background api-doc-code") {$ member.name | indent(6, false) | trim $}
+          code(class="api-doc-code") {$ paramList(member.parameters) | indent(8, false) | trim $}{$ returnType(member.returnType) $}
+      {% endif %}{% endfor %}
     {% endif %}
+    {% if doc.constructorDoc.name %}
+    div(layout="column")
+      pre(class="prettyprint no-bg-with-indent")
+        a(class="code-anchor" href="#constructor")
+          code(class="code-background api-doc-code") {$ doc.constructorDoc.name $}
+        code(class="api-doc-code").
+          {$ paramList(doc.constructorDoc.parameters) | indent(8, false) | trim $}
+    {% endif %}
+    {% if doc.members.length %}
+    div(layout="column")
+      {% for member in doc.members %}{% if not member.internal %}
+        pre(class="prettyprint no-bg-with-indent")
+          a(class="code-anchor" href="#{$ member.name $}-anchor")
+            code(class="code-background api-doc-code") {$ member.name | indent(6, false) | trim $}
+          code(class="api-doc-code") {$ paramList(member.parameters) | indent(8, false) | trim $}{$ returnType(member.returnType) $}
+      {% endif %}{% endfor %}
+    {% endif %}
+    p(class="selector endParens")
+      code(class="api-doc-code no-bg") }
 
 {% block additional %}
 {% endblock %}
 
-.div(class="row-margin" layout="row" layout-xs="column")
+div(layout="row" layout-xs="column" class="row-margin ng-cloak")
   div(flex="20" flex-xs="100")
-    h2 Class Description
-  div(class="class-description-content" flex="80" flex-xs="100")
+    h2(class="h2-api-docs") Class Description
+  div(class="code-links" flex="80" flex-xs="100")
     :marked
     {%- if doc.description.length > 2 %}
 {$ doc.description | indentForMarkdown(6) | trimBlankLines $}
-    {% else %}
-      *Not yet documented*
     {% endif %}
 
-.div(layout="row" layout-xs="column" class="row-margin")
+div(layout="row" layout-xs="column" class="row-margin ng-cloak")
   div(flex="20" flex-xs="100")
-    h2 Class Export
+    h2(class="h2-api-docs") Class Export
   div(flex="80" flex-xs="100")
     pre.prettyprint.no-bg
-      code.no-pln.
+      code(class="api-doc-code no-pln").
         export {$ doc.docType $} {$ doc.name $}
 
 {%- if doc.decorators.length %}
 {% block annotations %}
-.div(layout="row" layout-xs="column" class="row-margin")
+div(layout="row" layout-xs="column" class="row-margin ng-cloak")
   div(flex="20" flex-xs="100")
-    h2 Annotations
+    h2(class="h2-api-docs") Annotations
   div(flex="80" flex-xs="100")
     {%- for decorator in doc.decorators %}
       pre.prettyprint.no-bg
-        code.
+        code(class="api-doc-code").
           @{$ decorator.name $}{$ paramList(decorator.arguments) | indent(10, false) $}
       :marked
-      {%- if decorator.notYetDocumented %}
-        *Not yet documented*
-      {% else %}
+      {%- if not decorator.notYetDocumented %}
         {$ decorator.description | indentForMarkdown(8) | trimBlankLines $}
       {% endif %}
     {% endfor %}
@@ -70,35 +87,33 @@ include {$ relativePath(doc.path, '_util-fns') $}
 {% endif %}
 
 {%- if doc.constructorDoc and not doc.constructorDoc.internal %}
-.div(layout="row" layout-xs="column" class="row-margin")
+div(layout="row" layout-xs="column" class="row-margin ng-cloak")
   div(flex="20" flex-xs="100")
-    h2 Constructor
+    h2(class="h2-api-docs") Constructor
   div(flex="80" flex-xs="100")
-    pre.prettyprint.no-bg
-      code.
+    a(name="constructor" class="anchor-offset")
+    pre(class="prettyprint no-bg" ng-class="{ 'anchor-focused': appCtrl.isApiDocMemberFocused('{$ doc.constructorDoc.name $}') }")
+      code(class="api-doc-code").
         {$ doc.constructorDoc.name $}{$ paramList(doc.constructorDoc.parameters) | indent(8, false) | trim $}
     :marked
-      {%- if doc.constructorDoc.notYetDocumented %}
-      *Not yet documented*
-      {% else %}
+      {%- if not doc.constructorDoc.notYetDocumented %}
 {$ doc.constructorDoc.description | indentForMarkdown(6) | replace('### Example', '') | replace('## Example', '') | replace('# Example', '') | trimBlankLines $}
       {% endif %}
 {% endif %}
 
 {% if doc.statics.length %}
-.div(layout="row" layout-xs="column" class="row-margin")
+div(layout="row" layout-xs="column" class="row-margin ng-cloak")
   div(flex="20" flex-xs="100")
-    h2 Static Members
-  div(flex="80" flex-xs="100")
+    h2(class="h2-api-docs") Static Members
+  div(class="code-links" flex="80" flex-xs="100")
   {% for member in doc.statics %}{% if not member.internal %}
-    pre.prettyprint.no-bg
-      code.
+    a(name="{$ member.name $}-anchor" class="anchor-offset")
+    pre(class="prettyprint no-bg" ng-class="{ 'anchor-focused': appCtrl.isApiDocMemberFocused('{$ member.name $}') }")
+      code(class="api-doc-code").
         {$ member.name $}{$ paramList(member.parameters) | indent(8, false) | trim $}{$ returnType(member.returnType) $}
     :marked
-      {%- if member.notYetDocumented %}
-      *Not yet documented*
-      {% else %}
-{$ member.description | indentForMarkdown(6) | replace('## Example', '') | replace('# Example', '') | trimBlankLines $}
+      {%- if not member.notYetDocumented %}
+{$ member.description | indentForMarkdown(6) | replace('### Example', '') | replace('## Example', '') | replace('# Example', '') | trimBlankLines $}
       {% endif %}
 
     {% if not loop.last %}
@@ -109,19 +124,18 @@ include {$ relativePath(doc.path, '_util-fns') $}
 {% endif %}
 
 {% if doc.members.length %}
-.div(layout="row" layout-xs="column" class="instance-members" class="row-margin")
+div(layout="row" layout-xs="column" class="instance-members" class="row-margin ng-cloak")
   div(flex="20" flex-xs="100")
-    h2 Instance Members
-  div(flex="80" flex-xs="100")
+    h2(class="h2-api-docs") Class Details
+  div(class="code-links" flex="80" flex-xs="100")
     {% for member in doc.members %}{% if not member.internal %}
-    pre.prettyprint.no-bg
-      code.
+    a(name="{$ member.name $}-anchor" class="anchor-offset")
+    pre(class="prettyprint no-bg" ng-class="{ 'anchor-focused': appCtrl.isApiDocMemberFocused('{$ member.name $}') }")
+      code(class="api-doc-code").
         {$ member.name $}{$ paramList(member.parameters) | indent(8, false) | trim $}{$ returnType(member.returnType) $}
 
     :marked
-      {%- if member.notYetDocumented %}
-      *Not yet documented*
-      {% else %}
+      {%- if not member.notYetDocumented %}
 {$ member.description | indentForMarkdown(6) | replace('### Example', '') | replace('## Example', '') | replace('# Example', '') | trimBlankLines $}
       {% endif -%}
 
@@ -132,7 +146,7 @@ include {$ relativePath(doc.path, '_util-fns') $}
   {% endif %}{% endfor %}
 {% endif %}
 
-.p(class="location-badge")
+p(class="location-badge").
   exported from {@link {$ doc.moduleDoc.id $} {$doc.moduleDoc.id $} }
   defined in {$ githubViewLink(doc) $}
 

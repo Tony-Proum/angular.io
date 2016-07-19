@@ -1,12 +1,13 @@
+/* tslint:disable:forin */
 // #docregion
 import {
-  Component, Input, ViewChild,
-  OnChanges, SimpleChange
-} from 'angular2/core';
+  Component, Input, OnChanges,
+  SimpleChange, ViewChild
+} from '@angular/core';
 
 
 class Hero {
-  constructor(public name:string){}
+  constructor(public name: string) {}
 }
 
 @Component({
@@ -16,7 +17,7 @@ class Hero {
     <p>{{hero.name}} can {{power}}</p>
 
     <h4>-- Change Log --</h4>
-    <div *ngFor="#chg of changeLog">{{chg}}</div>
+    <div *ngFor="let chg of changeLog">{{chg}}</div>
   </div>
   `,
   styles: [
@@ -30,14 +31,14 @@ export class OnChangesComponent implements OnChanges {
   @Input() power: string;
 // #enddocregion inputs
 
-  changeLog:string[] = [];
+  changeLog: string[] = [];
 
   // #docregion ng-on-changes
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
     for (let propName in changes) {
-      let prop = changes[propName];
-      let cur  = JSON.stringify(prop.currentValue)
-      let prev = JSON.stringify(prop.previousValue);
+      let chng = changes[propName];
+      let cur  = JSON.stringify(chng.currentValue);
+      let prev = JSON.stringify(chng.previousValue);
       this.changeLog.push(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
     }
   }
@@ -50,25 +51,25 @@ export class OnChangesComponent implements OnChanges {
 
 @Component({
   selector: 'on-changes-parent',
-  templateUrl:'app/on-changes-parent.component.html',
+  templateUrl: 'app/on-changes-parent.component.html',
   styles: ['.parent {background: Lavender;}'],
   directives: [OnChangesComponent]
 })
 export class OnChangesParentComponent {
-  hero:Hero;
-  power:string;
+  hero: Hero;
+  power: string;
   title = 'OnChanges';
-  @ViewChild(OnChangesComponent) childView:OnChangesComponent;
+  @ViewChild(OnChangesComponent) childView: OnChangesComponent;
 
   constructor() {
     this.reset();
   }
 
-  reset(){
+  reset() {
     // new Hero object every time; triggers onChanges
     this.hero = new Hero('Windstorm');
     // setting power only triggers onChanges if this value is different
     this.power = 'sing';
-    this.childView && this.childView.reset();
+    if (this.childView) { this.childView.reset(); }
   }
 }

@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'my-app-ctor',
@@ -7,7 +7,7 @@ import {Component} from 'angular2/core';
     <h2>My favorite hero is: {{myHero}}</h2>
     `
 })
-// #docregion app-ctor
+// #docregion class
 export class AppCtorComponent {
   title: string;
   myHero: string;
@@ -17,4 +17,3 @@ export class AppCtorComponent {
     this.myHero = 'Windstorm';
   }
 }
-// #enddocregion app-ctor

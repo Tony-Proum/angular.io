@@ -1,18 +1,33 @@
-// #docregion pt2
-import {Component} from 'angular2/core';
+// #docregion
+import { Component } from '@angular/core';
 
 export class Hero {
   id: number;
   name: string;
 }
 
+// #docregion hero-array
+const HEROES: Hero[] = [
+  { id: 11, name: 'Mr. Nice' },
+  { id: 12, name: 'Narco' },
+  { id: 13, name: 'Bombasto' },
+  { id: 14, name: 'Celeritas' },
+  { id: 15, name: 'Magneta' },
+  { id: 16, name: 'RubberMan' },
+  { id: 17, name: 'Dynama' },
+  { id: 18, name: 'Dr IQ' },
+  { id: 19, name: 'Magma' },
+  { id: 20, name: 'Tornado' }
+];
+// #enddocregion hero-array
+
 @Component({
   selector: 'my-app',
-  template:`
+  template: `
     <h1>{{title}}</h1>
     <h2>My Heroes</h2>
     <ul class="heroes">
-      <li *ngFor="#hero of heroes"
+      <li *ngFor="let hero of heroes"
         [class.selected]="hero === selectedHero"
         (click)="onSelect(hero)">
         <span class="badge">{{hero.id}}</span> {{hero.name}}
@@ -27,8 +42,8 @@ export class Hero {
       </div>
     </div>
   `,
-// #docregion styles-1
-  styles:[`
+  // #docregion styles
+  styles: [`
     .selected {
       background-color: #CFD8DC !important;
       color: white;
@@ -77,34 +92,16 @@ export class Hero {
       border-radius: 4px 0 0 4px;
     }
   `]
-// #enddocregion styles-1
+  // #enddocregion styles
 })
 export class AppComponent {
   title = 'Tour of Heroes';
   heroes = HEROES;
-// #docregion selected-hero-1
+  // #docregion selected-hero
   selectedHero: Hero;
-// #enddocregion selected-hero-1
+  // #enddocregion selected-hero
 
-// #docregion on-select-1
+  // #docregion on-select
   onSelect(hero: Hero) { this.selectedHero = hero; }
-// #enddocregion on-select-1
+  // #enddocregion on-select
 }
-// #enddocregion pt2
-
-// #docregion hero-array
-var HEROES: Hero[] = [
-  { "id": 11, "name": "Mr. Nice" },
-  { "id": 12, "name": "Narco" },
-  { "id": 13, "name": "Bombasto" },
-  { "id": 14, "name": "Celeritas" },
-  { "id": 15, "name": "Magneta" },
-  { "id": 16, "name": "RubberMan" },
-  { "id": 17, "name": "Dynama" },
-  { "id": 18, "name": "Dr IQ" },
-  { "id": 19, "name": "Magma" },
-  { "id": 20, "name": "Tornado" }
-];
-// #enddocregion hero-array
-
-// #enddocregion pt2

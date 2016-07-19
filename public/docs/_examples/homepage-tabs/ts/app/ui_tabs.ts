@@ -1,19 +1,19 @@
 // #docregion
-import {Component, Directive, Input, QueryList,
-        ViewContainerRef, TemplateRef, ContentChildren} from 'angular2/core';
+import { Component, Directive, Input, QueryList,
+        ViewContainerRef, TemplateRef, ContentChildren } from '@angular/core';
 
 @Directive({
-  selector: '[ui-pane]'
+  selector: '[uiPane]'
 })
-export class UiPane {
+export class UiPaneDirective {
   @Input() title: string;
-  private _active:boolean = false;
+  private _active: boolean = false;
 
   constructor(public viewContainer: ViewContainerRef,
-              public templateRef: TemplateRef) { }
+              public templateRef: TemplateRef<any>) { }
 
   @Input() set active(active: boolean) {
-    if (active == this._active) return;
+    if (active === this._active) { return; }
     this._active = active;
     if (active) {
       this.viewContainer.createEmbeddedView(this.templateRef);
@@ -31,7 +31,7 @@ export class UiPane {
   selector: 'ui-tabs',
   template: `
     <ul class="nav nav-tabs">
-      <li *ngFor="var pane of panes"
+      <li *ngFor="let pane of panes"
           (click)="select(pane)"
           role="presentation" [class.active]="pane.active">
         <a>{{pane.title}}</a>
@@ -39,13 +39,13 @@ export class UiPane {
     </ul>
     <ng-content></ng-content>
     `,
-    styles:['a { cursor: pointer; cursor: hand; }']
+    styles: ['a { cursor: pointer; cursor: hand; }']
 })
-export class UiTabs {
-  @ContentChildren(UiPane) panes: QueryList<UiPane>;
+export class UiTabsComponent {
+  @ContentChildren(UiPaneDirective) panes: QueryList<UiPaneDirective>;
 
-  select(pane: UiPane) {
-    this.panes.toArray().forEach((p: UiPane) => p.active = p == pane);
+  select(pane: UiPaneDirective) {
+    this.panes.toArray().forEach((p: UiPaneDirective) => p.active = p === pane);
   }
 }
 

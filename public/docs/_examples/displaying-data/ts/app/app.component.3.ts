@@ -1,8 +1,8 @@
 // #docregion
-import {Component} from 'angular2/core';
-// #docregion import-hero
-import {Hero} from './hero';
-// #enddocregion import-hero
+import { Component } from '@angular/core';
+// #docregion import
+import { Hero } from './hero';
+// #enddocregion import
 
 @Component({
   selector: 'my-app',
@@ -12,7 +12,7 @@ import {Hero} from './hero';
     <h2>My favorite hero is: {{myHero.name}}</h2>
     <p>Heroes:</p>
     <ul>
-      <li *ngFor="#hero of heroes">
+      <li *ngFor="let hero of heroes">
         {{ hero.name }}
       </li>
     </ul>
@@ -32,5 +32,3 @@ export class AppComponent {
   myHero = this.heroes[0];
   // #enddocregion heroes
 }
-// #enddocregion class
-// #enddocregion

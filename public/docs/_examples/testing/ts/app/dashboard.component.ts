@@ -1,8 +1,8 @@
 // #docplaster
 // #docregion
-import { Component, OnInit } from 'angular2/core';
+import { Component, OnInit } from '@angular/core';
 // #docregion import-router
-import { Router } from 'angular2/router';
+import { Router } from '@angular/router-deprecated';
 // #enddocregion import-router
 
 import { Hero } from './hero';
@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this._heroService.getHeroes()
-      .then(heroes => this.heroes = heroes.slice(1,5));
+      .then(heroes => this.heroes = heroes.slice(1, 5));
   }
 
   // #docregion goto-detail

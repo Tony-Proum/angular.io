@@ -1,5 +1,6 @@
+/* tslint:disable:forin */
 // #docregion
-import {Component, Input, OnChanges, SimpleChange} from 'angular2/core';
+import { Component, Input, OnChanges, SimpleChange } from '@angular/core';
 
 @Component({
   selector: 'version-child',
@@ -7,7 +8,7 @@ import {Component, Input, OnChanges, SimpleChange} from 'angular2/core';
     <h3>Version {{major}}.{{minor}}</h3>
     <h4>Change log:</h4>
     <ul>
-      <li *ngFor="#change of changeLog">{{change}}</li>
+      <li *ngFor="let change of changeLog">{{change}}</li>
     </ul>
   `
 })
@@ -16,7 +17,7 @@ export class VersionChildComponent implements OnChanges {
   @Input() minor: number;
   changeLog: string[] = [];
 
-  ngOnChanges(changes: {[propKey:string]: SimpleChange}){
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
     let log: string[] = [];
     for (let propName in changes) {
       let changedProp = changes[propName];

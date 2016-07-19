@@ -9,7 +9,10 @@ var mkdirp = require('mkdirp');
 
 var indexHtmlTranslator = require('./indexHtmlTranslator');
 var regionExtractor = require('../doc-shredder/regionExtractor');
-var COPYRIGHT, COPYRIGHT_JS, COPYRIGHT_HTML;
+var COPYRIGHT, COPYRIGHT_JS_CSS, COPYRIGHT_HTML;
+var SYSTEMJS_CONFIG; // content of systemjs.config.js for plunkers that use systemjs
+var TSCONFIG;  // content of tsconfig.json for plunkers that use systemjs
+
 
 module.exports = {
   buildPlunkers: buildPlunkers
@@ -27,12 +30,10 @@ function buildCopyrightStrings() {
 }
 
 function buildPlunkers(basePath, destPath, options) {
+  getSystemJsConfigPlunker(basePath);
   var errFn = options.errFn || function(e) { console.log(e); };
-  var configExtns = ['plnkr.json', '*plnkr.json'];
-  var gpaths = configExtns.map(function(extn) {
-    return path.join(basePath, '**/' + extn);
-  });
-  var fileNames = globby.sync(gpaths, { ignore: "**/node_modules/**"});
+  var plunkerPaths = path.join(basePath, '**/*plnkr.json');
+  var fileNames = globby.sync(plunkerPaths, { ignore: "**/node_modules/**"});
   fileNames.forEach(function(configFileName) {
     try {
       buildPlunkerFrom(configFileName, basePath, destPath);
@@ -47,7 +48,7 @@ function buildPlunkers(basePath, destPath, options) {
 //   description: optional string - description of this plunker - defaults to the title in the index.html page.
 //   tags: [] - optional array of strings
 //   main: string - filename of what will become index.html in the plunker - defaults to index.html
-function buildPlunkerFrom(configFileName, basePath, destPath ) {
+function buildPlunkerFrom(configFileName, basePath, destPath) {
   // replace ending 'plnkr.json' with 'plnkr.no-link.html' to create output file name;
   var outputFileName = configFileName.substr(0, configFileName.length - 'plnkr.json'.length) + 'plnkr.no-link.html';
   var altFileName;
@@ -58,6 +59,7 @@ function buildPlunkerFrom(configFileName, basePath, destPath ) {
   try {
     var config = initConfigAndCollectFileNames(configFileName);
     var postData = createPostData(config);
+    addSystemJsConfig(config, postData);
     var html = createPlunkerHtml(postData);
     fs.writeFileSync(outputFileName, html, 'utf-8');
     if (altFileName) {
@@ -77,6 +79,24 @@ function buildPlunkerFrom(configFileName, basePath, destPath ) {
     }
     throw e;
   }
+}
+
+/**
+ * Add plunker versions of systemjs.config and tsconfig.json
+ */
+function addSystemJsConfig(config, postData){
+  if (config.basePath.indexOf('/ts') > -1) {
+     // uses systemjs.config.js so add plunker version
+     postData['files[systemjs.config.js]'] = SYSTEMJS_CONFIG;
+     postData['files[tsconfig.json]'] = TSCONFIG;
+  }
+}
+
+function getSystemJsConfigPlunker(basePath) {
+  // Assume plunker version is sibling of node_modules version
+  SYSTEMJS_CONFIG = fs.readFileSync(basePath + '/systemjs.config.plunker.js', 'utf-8');
+  SYSTEMJS_CONFIG +=  COPYRIGHT_JS_CSS;
+  TSCONFIG = fs.readFileSync(basePath + '/tsconfig.json', 'utf-8');
 }
 
 function initConfigAndCollectFileNames(configFileName) {
@@ -106,6 +126,7 @@ function initConfigAndCollectFileNames(configFileName) {
       return path.join(basePath, fileName);
     }
   });
+
   // var defaultExcludes = [ '!**/node_modules/**','!**/typings/**','!**/tsconfig.json', '!**/*plnkr.json', '!**/*plnkr.html', '!**/*plnkr.no-link.html' ];
   var defaultExcludes = [
     '!**/typings/**',
@@ -116,12 +137,18 @@ function initConfigAndCollectFileNames(configFileName) {
     '!**/example-config.json',
     '!**/*.spec.*',
     '!**/tslint.json',
-    '!**/.editorconfig'
+    '!**/.editorconfig',
+    '!**/systemjs.config.js',
+    '!**/wallaby.js',
+    '!**/karma-test-shim.js',
+    '!**/karma.conf.js',
+    '!**/spec.js'
    ];
   Array.prototype.push.apply(gpaths, defaultExcludes);
 
   config.fileNames = globby.sync(gpaths, { ignore: ["**/node_modules/**"] });
   config.basePath = basePath;
+
   return config;
 }
 
@@ -196,7 +223,6 @@ function encodeBase64(file) {
   return new Buffer(bitmap).toString('base64');
 }
 
-
 function createPlunkerHtml(postData) {
   useNewWindow = false;
   var baseHtml = createBasePlunkerHtml(useNewWindow);
@@ -208,8 +234,10 @@ function createPlunkerHtml(postData) {
     form.appendChild(ele)
   });
   var html = doc.documentElement.outerHTML;
+
   return html;
 }
+
 
 function createBasePlunkerHtml(useNewWindow) {
   var url = 'http://plnkr.co/edit/?p=preview';

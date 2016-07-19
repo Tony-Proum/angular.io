@@ -1,5 +1,6 @@
 // #docregion
-import {bootstrap} from 'angular2/platform/browser';
-import {DiDemo}    from './di_demo';
+import { bootstrap } from '@angular/platform-browser-dynamic';
 
-bootstrap(DiDemo);
+import { DiDemoComponent }    from './di_demo';
+
+bootstrap(DiDemoComponent);

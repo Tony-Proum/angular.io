@@ -58,12 +58,73 @@ module.exports = function addJadeDataDocsProcessor() {
           // GET DATA FOR EACH PAGE (CLASS, VARS, FUNCTIONS)
           var modulePageInfo  = _(doc.exports)
           .map(function(exportDoc) {
+
+            // STABILITY STATUS
+            // Supported tags:
+            // @stable
+            // @experimental
+            // @deprecated
+            // Default is the empty string (no badge)
+            // Do not capitalize the strings, they are intended for use in constructing a css class from _hero.scss
+            // and used in _hero.jade
+            var stability = '';
+            if (_.has(exportDoc, 'stable')) {
+              stability = 'stable';
+            } else if (_.has(exportDoc, 'experimental')) {
+              stability = 'experimental';
+            } else if (_.has(exportDoc, 'deprecated')) {
+              stability = 'deprecated';
+              exportDoc.showDeprecatedNotes = true;
+            }
+            
+            var howToUse = '';
+            if(_.has(exportDoc, 'howToUse')) {
+              var howToUseArray = exportDoc.tags.tags.filter(function(tag) {
+                return tag.tagName === 'howToUse'
+              });
+
+              // Remove line breaks, there should only be one tag
+              howToUse = howToUseArray[0].description.replace(/(\r\n|\n|\r)/gm,"");
+            }
+
+            var whatItDoes = '';
+            if(_.has(exportDoc, 'whatItDoes')) {
+              var whatItDoesArray = exportDoc.tags.tags.filter(function(tag) {
+                return tag.tagName === 'whatItDoes'
+              });
+
+              // Remove line breaks, there should only be one tag
+              whatItDoes = whatItDoesArray[0].description.replace(/(\r\n|\n|\r)/gm,"");
+            }
+
+            // SECURITY STATUS
+            // Supported tags:
+            // @security
+            // Default is no security risk assessed for api
+            var security = false;
+            if (_.has(exportDoc, 'security')) {
+              var securityArray = exportDoc.tags.tags.filter(function(tag) {
+                return tag.tagName === 'security'
+              });
+
+              // Remove line breaks, there should only be one tag
+              security = securityArray[0].description.replace(/(\r\n|\n|\r)/gm,"");
+
+              exportDoc.showSecurityNotes = true;
+            }
+
+            // Data inserted into jade-data.template.html
             var dataDoc = {
               name: exportDoc.name + '-' + exportDoc.docType,
               title: exportDoc.name,
               docType: exportDoc.docType,
-              exportDoc: exportDoc
+              exportDoc: exportDoc,
+              stability: stability,
+              howToUse: howToUse,
+              whatItDoes: whatItDoes,
+              security: security
             };
+
             if (exportDoc.symbolTypeName) dataDoc.varType = titleCase(exportDoc.symbolTypeName);
             if (exportDoc.originalModule) dataDoc.originalModule = exportDoc.originalModule;
             return dataDoc;

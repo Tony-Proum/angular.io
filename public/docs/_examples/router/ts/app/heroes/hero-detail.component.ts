@@ -1,7 +1,9 @@
+// #docplaster
 // #docregion
-import {Component,  OnInit}  from 'angular2/core';
-import {Hero, HeroService}   from './hero.service';
-import {RouteParams, Router} from 'angular2/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute }       from '@angular/router';
+
+import { Hero, HeroService } from './hero.service';
 
 @Component({
   template: `
@@ -20,32 +22,41 @@ import {RouteParams, Router} from 'angular2/router';
   </div>
   `,
 })
-export class HeroDetailComponent implements OnInit  {
+export class HeroDetailComponent implements OnInit, OnDestroy  {
   hero: Hero;
 
+  // #docregion ngOnInit
+  private sub: any;
+
+  // #enddocregion ngOnInit
   // #docregion ctor
   constructor(
-    private _router:Router,
-    private _routeParams:RouteParams,
-    private _service:HeroService){}
+    private route: ActivatedRoute,
+    private router: Router,
+    private service: HeroService) {}
   // #enddocregion ctor
 
   // #docregion ngOnInit
   ngOnInit() {
-    let id = this._routeParams.get('id');
-    this._service.getHero(id).then(hero => this.hero = hero);
+    this.sub = this.route.params.subscribe(params => {
+       let id = +params['id']; // (+) converts string 'id' to a number
+       this.service.getHero(id).then(hero => this.hero = hero);
+     });
   }
   // #enddocregion ngOnInit
 
-  // #docregion gotoHeroes
+  // #docregion ngOnDestroy
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+  // #enddocregion ngOnDestroy
+
+  // #docregion gotoHeroes-navigate
   gotoHeroes() {
     let heroId = this.hero ? this.hero.id : null;
     // Pass along the hero id if available
     // so that the HeroList component can select that hero.
-    // Add a totally useless `foo` parameter for kicks.
-    // #docregion gotoHeroes-navigate
-    this._router.navigate(['Heroes',  {id: heroId, foo: 'foo'} ]);
-    // #enddocregion gotoHeroes-navigate
+    this.router.navigate(['/heroes', { id: heroId, foo: 'foo' }]);
   }
-  // #enddocregion gotoHeroes
+  // #enddocregion gotoHeroes-navigate
 }

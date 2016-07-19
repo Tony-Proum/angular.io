@@ -1,12 +1,12 @@
 // #docregion
-import {Component}        from 'angular2/core';
-import {JSONP_PROVIDERS}  from 'angular2/http';
-import {Observable}       from 'rxjs/Observable';
+import { Component }        from '@angular/core';
+import { JSONP_PROVIDERS }  from '@angular/http';
+import { Observable }       from 'rxjs/Observable';
 // #docregion import-subject
-import {Subject}          from 'rxjs/Subject';
+import { Subject }          from 'rxjs/Subject';
 // #enddocregion import-subject
 
-import {WikipediaService} from './wikipedia.service';
+import { WikipediaService } from './wikipedia.service';
 
 @Component({
   selector: 'my-wiki-smart',
@@ -17,25 +17,25 @@ import {WikipediaService} from './wikipedia.service';
     <input #term (keyup)="search(term.value)"/>
 
     <ul>
-      <li *ngFor="#item of items | async">{{item}}</li>
+      <li *ngFor="let item of items | async">{{item}}</li>
     </ul>
   `,
-  providers:[JSONP_PROVIDERS, WikipediaService]
+  providers: [JSONP_PROVIDERS, WikipediaService]
 })
 export class WikiSmartComponent {
 
-  constructor (private _wikipediaService: WikipediaService) { }
+  constructor (private wikipediaService: WikipediaService) { }
 
   // #docregion subject
-  private _searchTermStream = new Subject<string>();
+  private searchTermStream = new Subject<string>();
 
-  search(term:string) { this._searchTermStream.next(term); }
+  search(term: string) { this.searchTermStream.next(term); }
   // #enddocregion subject
 
   // #docregion observable-operators
-  items:Observable<string[]> = this._searchTermStream
+  items: Observable<string[]> = this.searchTermStream
     .debounceTime(300)
     .distinctUntilChanged()
-    .switchMap((term:string) => this._wikipediaService.search(term));
+    .switchMap((term: string) => this.wikipediaService.search(term));
 // #enddocregion observable-operators
 }

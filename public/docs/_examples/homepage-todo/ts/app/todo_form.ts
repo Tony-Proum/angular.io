@@ -1,6 +1,6 @@
 // #docregion
-import {Component, Output, EventEmitter} from 'angular2/core';
-import {Todo} from './todo';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { Todo } from './todo';
 
 @Component({
   selector: 'todo-form',
@@ -11,13 +11,13 @@ import {Todo} from './todo';
       <input class="btn-primary" type="submit" value="add">
     </form>`
 })
-export class TodoForm {
+export class TodoFormComponent {
   @Output() newTask = new EventEmitter<Todo>();
   task: string = '';
 
   addTodo() {
     if (this.task) {
-      this.newTask.next({text:this.task, done:false});
+      this.newTask.next({text: this.task, done: false});
     }
     this.task = '';
   }

@@ -1,6 +1,7 @@
 // #docregion
-import {Component} from 'angular2/core';
-import {ExponentialStrengthPipe} from './exponential-strength.pipe';
+import { Component } from '@angular/core';
+
+import { ExponentialStrengthPipe } from './exponential-strength.pipe';
 
 @Component({
   selector: 'power-boost-calculator',
@@ -14,7 +15,7 @@ import {ExponentialStrengthPipe} from './exponential-strength.pipe';
   `,
   pipes: [ExponentialStrengthPipe]
 })
-export class PowerBoostCalculator {
+export class PowerBoostCalculatorComponent {
   power = 5;
   factor = 1;
 }

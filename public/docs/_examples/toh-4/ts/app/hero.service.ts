@@ -1,28 +1,27 @@
 // #docplaster
 // #docregion
 // #docregion just-get-heroes
-import {Injectable} from 'angular2/core';
+import { Injectable } from '@angular/core';
 
-import {Hero} from './hero';
-import {HEROES} from './mock-heroes';
+import { Hero } from './hero';
+import { HEROES } from './mock-heroes';
 
 @Injectable()
 export class HeroService {
-  //#docregion get-heroes
+  // #docregion get-heroes
   getHeroes() {
     return Promise.resolve(HEROES);
   }
-  //#enddocregion get-heroes
-  // #enddocregion just-get-heroes
+  // #enddocregion get-heroes, just-get-heroes
+  // #enddocregion
   // See the "Take it slow" appendix
-  //#docregion get-heroes-slowly
+  // #docregion get-heroes-slowly
   getHeroesSlowly() {
     return new Promise<Hero[]>(resolve =>
-      setTimeout(()=>resolve(HEROES), 2000) // 2 seconds
+      setTimeout(() => resolve(HEROES), 2000) // 2 seconds
     );
   }
-  //#enddocregion get-heroes-slowly
+  // #enddocregion get-heroes-slowly
+  // #docregion
   // #docregion just-get-heroes
 }
-// #enddocregion just-get-heroes
-// #enddocregion

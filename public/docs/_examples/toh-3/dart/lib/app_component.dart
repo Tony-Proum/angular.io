@@ -8,14 +8,27 @@ import 'hero.dart';
 import 'hero_detail_component.dart';
 // #enddocregion hero-detail-import
 
+final List<Hero> mockHeroes = [
+  new Hero(11, 'Mr. Nice'),
+  new Hero(12, 'Narco'),
+  new Hero(13, 'Bombasto'),
+  new Hero(14, 'Celeritas'),
+  new Hero(15, 'Magneta'),
+  new Hero(16, 'RubberMan'),
+  new Hero(17, 'Dynama'),
+  new Hero(18, 'Dr IQ'),
+  new Hero(19, 'Magma'),
+  new Hero(20, 'Tornado')
+];
+
 @Component(
     selector: 'my-app',
-// #docregion hero-detail-template
+    // #docregion hero-detail-template
     template: '''
       <h1>{{title}}</h1>
       <h2>My Heroes</h2>
       <ul class="heroes">
-        <li *ngFor="#hero of heroes"
+        <li *ngFor="let hero of heroes"
           [class.selected]="hero == selectedHero"
           (click)="onSelect(hero)">
           <span class="badge">{{hero.id}}</span> {{hero.name}}
@@ -23,8 +36,9 @@ import 'hero_detail_component.dart';
       </ul>
       <my-hero-detail [hero]="selectedHero"></my-hero-detail>
     ''',
-// #enddocregion hero-detail-template
-    styles: const ['''
+    // #enddocregion hero-detail-template
+    styles: const [
+      '''
       .selected {
         background-color: #CFD8DC !important;
         color: white;
@@ -73,30 +87,16 @@ import 'hero_detail_component.dart';
       }
     '''
     ],
-// #docregion directives
-    directives: const [
-      HeroDetailComponent
-    ])
-// #enddocregion directives
+    // #docregion directives
+    directives: const [HeroDetailComponent]
+    // #enddocregion directives
+    )
 class AppComponent {
   final String title = 'Tour of Heroes';
   final List<Hero> heroes = mockHeroes;
   Hero selectedHero;
 
-  onSelect(Hero hero) {
+  void onSelect(Hero hero) {
     selectedHero = hero;
   }
 }
-
-final List<Hero> mockHeroes = [
-  new Hero(11, "Mr. Nice"),
-  new Hero(12, "Narco"),
-  new Hero(13, "Bombasto"),
-  new Hero(14, "Celeritas"),
-  new Hero(15, "Magneta"),
-  new Hero(16, "RubberMan"),
-  new Hero(17, "Dynama"),
-  new Hero(18, "Dr IQ"),
-  new Hero(19, "Magma"),
-  new Hero(20, "Tornado")
-];

@@ -1,5 +1,5 @@
 // #docregion pt1
-import {Component} from 'angular2/core';
+import { Component } from '@angular/core';
 
 // #docregion hero-class-1
 export class Hero {
@@ -10,7 +10,7 @@ export class Hero {
 
 @Component({
   selector: 'my-app',
-  template:`
+  template: `
     <h1>{{title}}</h1>
     <h2>{{hero.name}} details!</h2>
     <div><label>id: </label>{{hero.id}}</div>
@@ -22,10 +22,11 @@ export class Hero {
 })
 export class AppComponent {
   title = 'Tour of Heroes';
+  // #docregion hero-property-1
   hero: Hero = {
     id: 1,
     name: 'Windstorm'
   };
+  // #enddocregion hero-property-1
 }
-
 // #enddocregion pt1

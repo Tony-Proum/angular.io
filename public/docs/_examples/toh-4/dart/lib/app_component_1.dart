@@ -5,15 +5,13 @@ import 'package:angular2/core.dart';
 // #enddocregion on-init
 import 'hero.dart';
 import 'hero_detail_component.dart';
-// #docregion hero-service-import
 import 'hero_service_1.dart';
-// #enddocregion hero-service-import
 
 // Testable but never shown
 @Component(
     selector: 'my-app',
     template: '''
-    <div *ngFor="#hero of heroes" (click)="onSelect(hero)">
+    <div *ngFor="let hero of heroes" (click)="onSelect(hero)">
       {{hero.name}}
     </div>
     <my-hero-detail [hero]="selectedHero"></my-hero-detail>
@@ -21,7 +19,7 @@ import 'hero_service_1.dart';
     directives: const [HeroDetailComponent],
     // #docregion providers
     providers: const [HeroService])
-// #enddocregion providers
+    // #enddocregion providers
 // #docregion on-init
 class AppComponent implements OnInit {
   // #enddocregion on-init
@@ -38,27 +36,25 @@ class AppComponent implements OnInit {
   final HeroService _heroService;
   AppComponent(this._heroService);
   // #enddocregion ctor
+
   // #docregion getHeroes
-  getHeroes() {
-    //#docregion get-heroes
+  void getHeroes() {
+    // #docregion get-heroes
     heroes = _heroService.getHeroes();
     // #enddocregion get-heroes
   }
   // #enddocregion getHeroes
 
-  // #docregion ng-on-init
-  // #docregion on-init
-  ngOnInit() {
+  // #docregion ng-on-init, on-init
+  void ngOnInit() {
     // #enddocregion on-init
     getHeroes();
     // #docregion on-init
   }
-  // #enddocregion on-init
-  // #enddocregion ng-on-init
+  // #enddocregion ng-on-init, on-init
 
-  onSelect(Hero hero) {
+  void onSelect(Hero hero) {
     selectedHero = hero;
   }
   // #docregion on-init
 }
-// #enddocregion on-init

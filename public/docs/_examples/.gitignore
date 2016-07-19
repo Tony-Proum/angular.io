@@ -1,13 +1,20 @@
+# _exampleBoilerplateFiles
 .editorconfig
-styles.css
-typings
-typings.json
-*.js.map
-package.json
 karma.conf.js
 karma-test-shim.js
+package.json
+*/**/styles.css
+systemjs.config.js
 tsconfig.json
 tslint.json
-npm-debug*.
-**/protractor.config.js
+typings.json
+wallaby.js
+
+protractor.config.js
 _test-output
+**/ts/**/*.js
+**/ts-snippets/**/*.js
+*.d.ts
+
+!**/*e2e-spec.js
+!systemjs.config.1.js

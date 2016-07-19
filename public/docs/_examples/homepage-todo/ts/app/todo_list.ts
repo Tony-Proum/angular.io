@@ -1,6 +1,7 @@
 // #docregion
-import {Component, Input} from 'angular2/core';
-import {Todo} from './todo';
+import { Component, Input } from '@angular/core';
+
+import { Todo } from './todo';
 
 @Component({
   selector: 'todo-list',
@@ -12,12 +13,12 @@ import {Todo} from './todo';
   ],
   template: `
     <ul class="list-unstyled">
-      <li *ngFor="#todo of todos">
+      <li *ngFor="let todo of todos">
         <input type="checkbox" [(ngModel)]="todo.done">
         <span class="done-{{todo.done}}">{{todo.text}}</span>
       </li>
     </ul>`
 })
-export class TodoList {
+export class TodoListComponent {
   @Input() todos: Todo[];
 }

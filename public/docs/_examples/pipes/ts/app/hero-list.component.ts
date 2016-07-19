@@ -1,6 +1,7 @@
 // #docregion
-import {Component} from 'angular2/core';
-import {FetchJsonPipe} from './fetch-json.pipe';
+import { Component } from '@angular/core';
+
+import { FetchJsonPipe } from './fetch-json.pipe';
 
 @Component({
   selector: 'hero-list',
@@ -8,7 +9,7 @@ import {FetchJsonPipe} from './fetch-json.pipe';
   template: `
     <h2>Heroes from JSON File</h2>
 
-    <div *ngFor="#hero of ('heroes.json' | fetch) ">
+    <div *ngFor="let hero of ('heroes.json' | fetch) ">
       {{hero.name}}
     </div>
 
